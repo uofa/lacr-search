@@ -1,0 +1,7 @@
+<div class="span6">
+  <%= form_tag(query_path, :method => "post", class: "text-right", id: "search-form") do %>
+  <%= text_area_tag :search, params[:search], placeholder: "Enter valid XQuery or XPath expression", class: "form-control span12", style: "min-height: 4em;" %>
+  <br>
+  <%= submit_tag "Run", class: "btn btn-primary" %>
+  <% end %>
+</div>

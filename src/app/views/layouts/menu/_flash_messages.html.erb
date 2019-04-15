@@ -1,0 +1,22 @@
+
+ <% if notice %>
+   <script type="text/javascript">
+   $('.notice').hide();
+   n = noty({text: '<div class="notification-notice container"><%= notice %></div>',
+             layout: 'topRight',
+             timeout: 5000,
+             type: 'information'});
+
+   </script>
+ <% end %>
+ 
+ <% if alert %>
+   <script type="text/javascript">
+   $('.alert').hide();
+   n = noty({text: '<div class="notification-alert container"><%= alert %></div>',
+             layout: 'topRight',
+             timeout: 5000,
+             type: 'information'});
+
+   </script>
+ <% end %>

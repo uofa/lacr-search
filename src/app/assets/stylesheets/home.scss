@@ -1,0 +1,240 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+  .headline {
+      padding: 120px 0;
+  }
+
+  .headline h1 {
+      background: #fff;
+      background: rgba(255,255,255,0.9);
+  }
+
+  .headline h2 {
+      background: #fff;
+      background: rgba(255,255,255,0.9);
+  }
+
+  .featurette-divider {
+      margin: 80px 0;
+  }
+
+  .featurette {
+      overflow: hidden;
+  }
+
+  .featurette-image.pull-left {
+      margin-right: 40px;
+  }
+
+  .featurette-image.pull-right {
+      margin-left: 40px;
+  }
+
+
+  @media(max-width:1200px) {
+
+      .featurette-divider {
+          margin: 50px 0;
+      }
+
+      .featurette-image.pull-left {
+          margin-right: 20px;
+      }
+
+      .featurette-image.pull-right {
+          margin-left: 20px;
+      }
+  }
+
+  @media(max-width:991px) {
+      .featurette-divider {
+          margin: 40px 0;
+      }
+
+      .featurette-image {
+          max-width: 50%;
+      }
+
+      .featurette-image.pull-left {
+          margin-right: 10px;
+      }
+
+      .featurette-image.pull-right {
+          margin-left: 10px;
+      }
+  }
+
+  @media(max-width:768px) {
+      .container {
+          margin: 0 15px;
+      }
+
+      .featurette-divider {
+          margin: 40px 0;
+      }
+
+  }
+
+  @media(max-width:668px) {
+
+      .featurette-divider {
+          margin: 30px 0;
+      }
+  }
+
+  @media(max-width:640px) {
+      .headline {
+          padding: 75px 0 25px 0;
+      }
+  }
+
+  @media(max-width:375px) {
+      .featurette-divider {
+          margin: 10px 0;
+      }
+
+      .featurette-image {
+          max-width: 100%;
+      }
+
+      .featurette-image.pull-left {
+          margin-right: 0;
+          margin-bottom: 10px;
+      }
+
+      .featurette-image.pull-right {
+          margin-bottom: 10px;
+          margin-left: 0;
+      }
+  }
+
+  #index-home-image{
+    width: 90%;
+    height: 90%;
+    margin-top: 5px;
+  }
+
+  textarea:focus, input:focus, .uneditable-input:focus {
+    border-color: rgba(119, 119, 119, 0.8) !important;
+    box-shadow: 0 1px 1px rgba(119, 119, 119, 0.075) inset, 0 0 8px rgba(119, 119, 119, 0.6) !important;
+    outline: 0 none !important;
+  }
+
+  #h1-home-light-text{
+    color: #ffffff;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  #p-home-light-text{
+    color: rgba(255, 255, 255, 0.8);
+    text-rendering: optimizeLegibility;
+  }
+
+  .h2-home{
+    text-align: center;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+  }
+
+  #home-top-container{
+    background-color: #888888;
+    width: 100%;
+    // margin-top: -20px;
+    // margin-bottom: -20px;
+
+  }
+
+  .jumbotron{
+    background-color: #1E1E1E;
+    padding-left: 0px ;
+    padding-right: 0px;
+    box-shadow: 7px 7px 5px #222;
+  }
+
+  .fp-controlArrow-down {
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+    z-index: 4;
+    cursor: pointer;
+    // Horiszontal center
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    // Stick to the bottom of the page
+    margin-bottom: auto;
+    bottom: 0;
+    }
+
+    .fp-controlArrow-down .icon{
+      display: inline-block;
+      width: 20px;
+      height: 38px;
+      position: relative;
+      background: url("scroll-down.png") center center no-repeat;
+      background-size: 20px 38px;
+    }
+    @media all and (-webkit-min-device-pixel-ratio: 1.5), all and (-o-min-device-pixel-ratio: 3 / 2), all and (min--moz-device-pixel-ratio: 1.5), all and (min-device-pixel-ratio: 1.5) {
+      .fp-controlArrow-down .icon {
+        background: url("scroll-down@2x.png") center center no-repeat;
+        background-size: 20px 38px;
+      }
+    }
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .fp-controlArrow-down .icon {
+        background: url("scroll-down@2x.png") center center no-repeat;
+        background-size: 20px 38px;
+      }
+    }
+    @-webkit-keyframes scrollAnimation {
+      0% { top: 6px; }
+      50% { top: 18px; }
+      100% { top: 6px; }
+    }
+    @keyframes scrollAnimation {
+      0% { top: 6px; }
+      50% { top: 18px; }
+      100% { top: 6px; }
+    }
+    .fp-controlArrow-down .icon:after {
+      content: '';
+      display: block;
+      width: 2px;
+      height: 6px;
+      position: absolute;
+      top: 6px;
+      left: 9px;
+      background: #444;
+      -webkit-animation: scrollAnimation 1s linear infinite;
+      animation: scrollAnimation 1s linear infinite;
+    }
+.fp-controlArrow-down .text-helper{
+  display: block;
+  font-size: 13px;
+  color: #444;
+}
+
+@media screen and (max-width: 1199px) {
+    #index-home-image {
+      // Fix FullPageJS resize
+      max-width: 300px;
+    }
+}
+@media screen and (max-width: 991px) {
+    #index-home-image {
+      // Fix FullPageJS resize
+      max-width: 200px;
+    }
+}
+@media screen and (max-width: 767px) {
+  #index-home-image {
+    // Fix FullPageJS resize
+    max-width: 150px;
+  }
+}

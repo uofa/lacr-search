@@ -1,0 +1,15 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<button type="button" class="btn btn-danger" id="deselect-all"><%= fa_icon "times-circle", text: "Deselect all" %></button>
+			<a type="button" class="btn btn-info" href="<%= ajax_doc_selected_pdf_path %>"><%= fa_icon "arrow-circle-o-down", text: "Download PDF"%></a>
+		</div>
+	</div>
+	<div class="row">
+		<%= render "documents/page"%>
+	</div>
+</div>
+
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "documents_selected.js" %>
+<% end %>

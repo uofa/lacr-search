@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+#one:
+#  content: MyText
+#  volume: 1
+#  page: 1
+#  paragraph: 1
+#  entry: MyString
+#  lang: MyString
+
+#two:
+#  content: MyText
+#  volume: 1
+#  page: 1
+#  paragraph: 1
+#  entry: MyString
+#  lang: MyString

@@ -1,0 +1,66 @@
+<% begin referrer_link = URI.parse(request.referrer) rescue referrer_link = nil end  %>
+<% if referrer_link and referrer_link.path == '/search' %>
+<div class="row">
+	<div class="col-sm-2">
+			<div class="col-xs-12">
+				<a href="<%= "/search?"+referrer_link.query %>" class="btn btn-primary">
+					<%= fa_icon "arrow-circle-left", text: "Back to search results" %>
+				</a>
+		</div>
+	</div>
+	<div class="col-sm-offset-3 col-sm-7">
+			<div class="col-xs-12">
+				<h4 id="doc-title"></h4>
+			</div>
+	</div>
+</div>
+<% else %>
+<div class="text-center">
+	<h4 id="doc-title"></h4>
+</div>
+<% end %>
+
+<div class="col-md-2 hidden-sm hidden-xs">
+	<div class="sidebar-nav" style="position:fixed;">
+		<!-- <nav data-spy="affix" data-offset-top="0"> -->
+			<ul class="nav nav-list" data-spy="affix" id="doc_nav" style="display:none;"></ul> <!-- <ul class="nav nav-list"> -->
+		<!-- </nav> -->
+	</div> <!-- <div class="sidebar-nav"> -->
+</div> <!-- <div class="col-md-1"> -->
+
+<div class="col-md-10">
+	<div id="transcription-image"></div>
+</div> <!-- <div class="col-md-10" id="transcription-image"> -->
+
+
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "documents.js" %>
+  <%= javascript_include_tag "jquery.highlight.js" %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		<% if params[:highlight] %>
+		setTimeout(function () {
+			// Heighlight search words
+			highlighted_options = { wordsOnly: true, caseSensitive: true };
+			$('.transcription').highlight(<%= params[:highlight].split().to_s.html_safe %>, highlighted_options);
+		}, 1000);
+		<% end %>
+		load_document(p=<%= @page%>, v=<%= @volume%>);
+		jqxhr.complete(function(){
+			// Set current page to active
+			$('#vol-<%= @volume%>-page-<%= @page%>').addClass("active");
+			// Show list with volumes
+			$('#doc_nav').slideDown().promise().done( function () {
+				// Collapse in the selected volume
+				$('.vol-<%= @volume%>').collapse('show');
+				// Scroll down to the selected page
+				setTimeout(function () {
+						$('#doc_nav').animate({
+							scrollTop:($("#vol-<%= @volume%>-page-<%= @page%>").offset().top - $($(".vol-<%= @volume%>")[0]).offset().top)
+						}, 1000 );
+					}, 0);
+			});
+		});
+	});
+	</script>
+<% end %>

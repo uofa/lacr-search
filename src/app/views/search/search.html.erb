@@ -1,0 +1,105 @@
+<div class="container" >
+<%= render '/search/search_tools' %>
+<% begin defined? @documents.suggestions %>
+  <div class="row">
+    <% if @documents.try(:suggestions).length > 0 %>
+    <div class="col-xs-6">
+      <label> Did you mean one of:
+        <% @documents.try(:suggestions).each do |s| %>
+        <a href="/search?utf8=✓&q=<%= s %>"><%= s %></a>
+        <% end %>
+      </label>
+    </div>
+    <div class="col-xs-6 text-right">
+      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
+      <button type="button" id="toggleChart-1" style="display:none;" class="btn btn-sm btn-primary" onclick="loadChart();">Toggle Timeline</button>
+    </div>
+    <%else%>
+    <div class="col-xs-12 text-right">
+      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
+      <button type="button" id="toggleChart-1" style="display:none;" class="btn btn-sm btn-primary" onclick="loadChart();">Toggle Timeline</button>
+    </div>
+    <%end%>
+  </div>
+<%rescue%>
+<%end%>
+<% if @documents.length > 0 %>
+  <div class="row">
+    <div class="text-center">
+       <div id="chart-1" style="visibility: hidden; height: 0"></div>
+    </div>
+  </div>
+  <div class="list-group">
+    <% @documents.each do |document| %>
+    <% begin highlighted = "&highlight="+Nokogiri::HTML.fragment(document.highlighted_content).css('mark').collect(&:text).uniq.join('+') rescue highlighted = "" end%>
+
+    <a class="list-group-item" href="<%= doc_show_path%>?p=<%=document.page%>&v=<%=document.volume%><%=highlighted%>">
+     <h4>
+       Volume: <%= document.volume %>, Page <%= document.page %>
+       <sup>Date: <%= document.date %></sup>
+     </h4>
+      <% if defined? document.highlighted_content %>
+      <p class="highlighted_content"><%= document.highlighted_content.html_safe %></p>
+      <%else%>
+      <p><%= document.content %></p>
+      <%end%>
+      <mdall>ID: <%= document.entry %></mdall>
+    </a>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="text-center">
+      <%= will_paginate @documents, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+
+  <% elsif @searchMethod == 5  # Regular expressions %>
+    <div class="col-md-12" style="margin-top: 15px;">
+      <h3>This regular expression did not match any paragraphs.</h3>
+      <h5>Examples of regular expressions:</h5>
+      <ul>
+        <li>The regular expression <code>[a|A]lex...</code> will match any string which has <code>a</code> or <code>A</code> followed by <code>lex</code> and any 3 characters. (E.g.  <i>&ldquo;alexander&rdquo;</i>, <i>&ldquo;Alexander&rdquo;</i> or <i>&ldquo;Alexandri&rdquo;</i>)</li>
+        <li>The regular expression <code>Willelmus.*Jacobi</code> will match any string which starts with <code>Willelmus</code> and ends with <code>Jacobi</code>.</li>
+      </ul>
+    </div>
+  <% else %>
+    <div class="col-md-8">
+      <p>Your search - <%= raw truncate(@query, :length => 30) %> - did not match any documents.</p>
+      <p>Suggestions:</p>
+      <ul>
+        <li>Try different keywords.</li>
+      </ul>
+    </div>
+  <% end %>
+</div>
+</div> <!-- slide -->
+<div class="slide" id="result-slide" style="display: none;">
+<div class="row">
+  <div class="col-sm-offset-1 col-sm-2">
+      <div class="col-xs-12">
+        <button type="button" onclick="$.fn.fullpage.moveTo('results', 0);" class="btn btn-primary">
+          <%= fa_icon "arrow-circle-left", text: "Back to search results" %>
+        </button>
+    </div>
+  </div>
+  <div class="col-sm-offset-2 col-sm-7">
+      <div class="col-xs-12">
+        <h4 id="doc-title"></h4>
+      </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div id="result-container"></div>
+  </div>
+  </div>
+
+<% if @documents.length > 0 %>
+<% content_for :javascript_includes do %>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <%= javascript_include_tag "search.js" %>
+  <script type="text/javascript">
+    loadChart('<%= ajax_search_chart_worddate_path(:term => @query)%>');
+  </script>
+<%end%>
+<%end%>

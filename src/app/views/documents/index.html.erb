@@ -1,0 +1,58 @@
+<div style="width:100%; display: inline-table">
+  <div class="col-md-4 vcenter doc-tools">
+    <div class="btn-group">
+      <button type="button" name="download" data-toggle="dropdown" class="btn btn-primary doc-tools dropdown-toggle" disabled="disabled">
+        <%= fa_icon "download", text: "Download"%>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#" id="doc_download">Transcriptions</a></li>
+        <li><a href="#" id="doc_download_img">Transcriptions with images</a></li>
+        <% if user_signed_in? and current_user.admin? %>
+        <li><a href="#" id="doc_download_img_orig">Transcriptions with original images </a></li>
+        <%end%>
+      </ul>
+    </div>
+
+    <% if user_signed_in? and current_user.admin? %>
+    <button type="button" name="delete" id="doc_delete" class="btn btn-danger doc-tools" disabled="disabled">
+      <%= fa_icon "remove", text: "Delete"%>
+    </button>
+    <%end%>
+  </div>
+  <div class="vcenter text-center">
+    <h3 id="doc-title"></h3>
+  </div>
+  <div class="col-md-4 vcenter text-right">
+      <div <% if user_signed_in? and current_user.admin? %>class="col-md-6"<%end%>>
+        <a href="#" id="doc_view" class="btn btn-primary" >
+          <%= fa_icon "book", text: "View Page" %>
+        </a>
+      </div>
+    <% if user_signed_in? and current_user.admin? %>
+      <div class="col-md-6">
+          <a href="<%= doc_new_path %>" class="btn btn-primary" id="doc-new">
+            <%= fa_icon "plus-circle", text: "New Document"%>
+          </a>
+      </div>
+    <%end%>
+  </div>
+</div>
+
+<div class="col-md-12" id="doc-browse">
+  <div class="col-md-2 well" style="">
+    <div id="volume"></div>
+  </div>
+  <div class="col-md-2 well" style="height: 65vh; overflow-y:auto; padding-top:0;">
+      <div id="page" class="list-group"></div>
+  </div>
+  <div class="col-md-8 well" style="height: 65vh; overflow-y:auto; padding: 0;">
+    <div id="transcriptions"></div>
+  </div>
+</div>
+
+<iframe id="file_download" style="display:none;"></iframe>
+
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "documents_browse.js" %>
+<% end %>

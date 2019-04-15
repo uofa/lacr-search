@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+  xmldb:
+    image: basex/basexhttp:latest
+    restart: unless-stopped
+    ports:
+     - 1984
+     - 8984
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    expose:
+      - 5433
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  es:
+    image: elasticsearch:latest
+    restart: unless-stopped
+    expose:
+     - 9200
+
+  web:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+
+    command: bundle exec rails s -p 80 -b '0.0.0.0'
+    volumes:
+      - ./src:/lacr-search
+    environment:
+      BASEX_ADMIN: ${BASEX_ADMIN}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+
+    ports:
+      - "80:80"
+    depends_on:
+      - es
+      - db
+      - xmldb

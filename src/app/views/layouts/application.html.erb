@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LacrDemo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= yield :stylesheet_includes %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+  <!-- Navigation -->
+  <%= render 'layouts/menu/main' %>
+  <%= render 'layouts/menu/flash_messages' %>
+  <%= yield :before_container %>
+  <%= yield %>
+  <!-- Footer -->
+  <%= render 'layouts/menu/footer' %>
+  <%= yield :javascript_includes %>
+  </body>
+</html>

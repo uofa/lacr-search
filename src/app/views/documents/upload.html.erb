@@ -1,0 +1,74 @@
+<div class="text-center container">
+  <h1>Uploaded files</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <% if @succesfully_uploaded[:xml].length > 0 %>
+      <div class="panel panel-success">
+          <div class="panel-heading text-center">
+            <p>Succesfully uploaded XML files</p>
+          </div>
+          <div class="panel-body">
+            <% @succesfully_uploaded[:xml].each do |filename| %>
+              <p><%= filename %></p>
+            <% end %>
+          </div>
+      </div>
+      <% else %>
+      <div class="well">
+        <p>No XML files have been uploaded.</p>
+      </div>
+      <% end %>
+    </div> <!-- <div class="col-md-6"> -->
+
+    <div class="col-md-6">
+      <% if @succesfully_uploaded[:image].length > 0 %>
+      <div class="panel panel-success">
+          <div class="panel-heading text-center">
+            <p>Succesfully uploaded images</p>
+          </div>
+          <div class="panel-body">
+            <% @succesfully_uploaded[:image].each do |filename| %>
+            <p><%= filename %></p>
+            <% end %>
+          </div>
+      </div>
+      <% else %>
+      <div class="well">
+        <p>No image files have been uploaded.</p>
+      </div>
+      <% end %>
+    </div> <!-- <div class="col-md-6"> -->
+  </div> <!-- <div class="row"> -->
+
+  <div class="row">
+    <div class="col-md-6">
+      <% if @unsuccesfully_uploaded[:xml].length > 0 %>
+      <div class="panel panel-danger">
+          <div class="panel-heading text-center">
+            <p>Unsuccesfully uploaded XML files</p>
+          </div>
+          <div class="panel-body">
+            <% @unsuccesfully_uploaded[:xml].each do |filename| %>
+              <p><%= filename %></p>
+            <% end %>
+          </div>
+      </div>
+      <% end %>
+    </div> <!-- <div class="col-md-6"> -->
+
+    <div class="col-md-6">
+      <% if @unsuccesfully_uploaded[:image].length > 0 %>
+      <div class="panel panel-danger">
+          <div class="panel-heading text-center">
+            <p>Unsuccesfully uploaded images</p>
+          </div>
+          <div class="panel-body">
+            <% @unsuccesfully_uploaded[:image].each do |filename| %>
+            <p><%= filename %></p>
+            <% end %>
+          </div>
+      </div>
+      <% end %>
+    </div> <!-- <div class="col-md-6"> -->
+  </div> <!-- <div class="row"> -->
+</div>  <!-- <div class="text-center"> -->

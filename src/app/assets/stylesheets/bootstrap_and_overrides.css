@@ -1,0 +1,29 @@
+/*
+  =require twitter-bootstrap-static/bootstrap
+
+  Static version of css will use Glyphicons sprites by default
+  =require twitter-bootstrap-static/sprites
+*/
+/* Collapse mav-bar-search on small screen */
+@media (max-width: 1045px) {
+    .navbar-toggle-search {
+        display: block;
+    }
+    #navbar-collapse-search {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    #navbar-collapse-search.collapse {
+        display: none!important;
+    }
+    #navbar-collapse-search {
+        float: none;
+    }
+
+    #navbar-collapse-search.collapse.in {
+        display: block!important;
+    }
+    #navbar-collapse-search.collapsing {
+        overflow: hidden!important;
+    }
+}

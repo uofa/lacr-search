@@ -1,0 +1,78 @@
+<div id="fullpage">
+    <div id="home-top-container" class="section">
+      <div class="container">
+        <div class="row">
+          <div class="jumbotron">
+            <div class="container">
+              <div class="col-md-4 text-center">
+                <img src="/assets/lacr-round.png" id="index-home-image">
+              </div>
+              <div class="col-md-8">
+                <h1 class="display-3" id="h1-home-light-text">Aberdeen Registers</h1>
+                <p id="p-home-light-text">Aberdeen’s fifteenth-century town council registers illuminate the workings of this Scottish burgh in a way unsurpassed by other Scottish urban records of the era. They also demonstrate the interconnections of people and ideas across northern Europe in the age of the renaissance.</p>
+              </div>
+              <div class="col-md-offset-3 col-md-6">
+                <form action="/search" method="get">
+                  <div class="input-group">
+                    <input type="search" class="form-control simple-search" name="q" placeholder="Search for words or phrases..." <% if @query %> value="<%= @query%>" <%end%>>
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" type="submit">
+                        <%= fa_icon "search"%>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div> <!-- row -->
+          </div> <!-- jumbotron -->
+          <div class="row hidden-xs">
+            <div class="fp-controlArrow-down text-center">
+              <div class="icon"></div>
+              <p class="text-helper">Scroll Down</p>
+            </div>
+          </div>
+        </div>
+      </div> <!-- container -->
+    </div> <!-- home-top-container -->
+
+    <div class="section">
+      <%= render template: "search/advanced_search"%>
+    </div>
+
+    <div class="section">
+          <div class="container">
+            <div class="row text-center">
+              <div class="col-md-6">
+                <h1 class="h2-home">Images of the Original Documents</h1>
+                <h4>All of the original documents are available to view in stunning high resolution images that will allow for true appreciation of the source material. </h4>
+              </div>
+              <div class="col-md-6">
+                <h1 class="h2-home">Read the entire Corpus</h1>
+                <h4>The transcribed text of the entire corpus of aberdeen burgh records will be made available giving access to these fascinating and world renowned documents  </h4>
+             </div>
+           </div>
+
+
+            <div class="row">
+              <div class="col-md-4">
+                <h1 class="h2-home">Powerful search</h1>
+                <h4>Our search has the capabilities will make finding exactly what you're looking for easy; Autocomplete, search suggestions and multiple advanced search fields all at lightning fast speeds.</h4>
+              </div>
+              <div class="col-md-4">
+                <h1 class="h2-home">Highly Contextual</h1>
+                <h4>Relevant Contents of the documents will be displayed around the search term in order to give much greater context. Dates and document ID’s will also be displayed to further enhance this. </h4>
+              </div>
+              <div class="col-md-4">
+                <h1 class="h2-home">Customized Search</h1>
+                <h4>A plethora of advanced search fields such as setting a start and end date, document by ID and the ability to search for proper names, aim to make search as concise as possible. </h4>
+              </div>
+            </div>
+        </div>
+    </div>
+
+</div>  <!-- <div id="fullpage"> -->
+
+
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "home.js" %>
+<%end%>

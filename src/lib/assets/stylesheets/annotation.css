@@ -1,0 +1,1023 @@
+/*--------------------------------------------------------------------------
+----- Based on HisTEI framework customisations for Oxygen
+----------------------------------------------------------------------------*/
+
+/* Labels */
+.s:focus,
+.cl:focus,
+.phr:focus,
+.w:focus,
+.pc:focus,
+.num:focus,
+.measure:focus {
+    padding:6px 0px;
+}
+
+.s:focus:after,
+.cl:focus:after,
+.phr:focus:after,
+.w:focus:after,
+.pc:focus:after,
+.num:focus:after,
+.measure:focus:after {
+    background-color:gray;
+}
+
+.s:focus:after {
+    background-color:rgba(53, 25, 0, 0.6);
+}
+
+.cl:focus:after {
+    background-color: rgba(64, 64, 255, 0.7);
+}
+
+.phr:focus:after {
+    background-color: rgba(0, 128, 0, 0.7);
+}
+
+.w:focus:after {
+    background-color: rgba(0, 49, 200, 0.7);
+}
+
+.pc:focus:after {
+    background-color: rgba(0, 49, 200, 0.7);
+}
+
+.num:focus:after {
+    background-color: rgba(255, 128, 0, 0.7);
+}
+
+.measure:focus:after {
+    background-color: rgba(128, 0, 255, 0.7);
+}
+
+.choice > .sic{
+  color: gray;
+  font-style: italic;
+}
+
+.choice > .corr{
+  display: none;
+  font-size:small;
+  vertical-align:sub;
+}
+.choice:hover > .corr{
+  display: initial;
+}
+/*-----------------------------------------------------------------------------------------------
+----- HisTEI framework customizations for Oxygen
+-----   made to the TEI css available at
+-----   http://tei.svn.sourceforge.net/viewvc/tei/trunk/TEICSS/
+-------------------------------------------------------------------------------------------------*/
+
+
+/* Global styles for hover/focus during inline editing */
+.supplied:focus:after,
+.foreign:focus:after,
+.gap:hover:after,
+.supplied:focus:after,
+.unclear:focus:after,
+.add:focus:after,
+.del:focus:after,
+.handShift:hover:after {
+    padding:5px;
+    border:1px dashed;
+}
+
+/* Sections, fields & labels */
+
+/* (Sub)Sections */
+.gloss:before,
+.titlePage:before,
+.docTitle:before,
+.docImprint:before,
+.docDate:before,
+.titlePart:before,
+.figure:before,
+.figDesc:before,
+.opener:before,
+.closer:before,
+.postscript:before {
+    display:block;
+    color:white;
+    background-color:gray;
+    font-weight:bold;
+    width:100%;
+    margin:5px;
+}
+
+.titlePage:before,
+.docTitle:before,
+.docDate:before,
+.titlePart:before,
+.docImprint:before {
+    color:black;
+    background-color:silver;
+}
+
+/* Foldable Sections */
+.titlePage,
+.docTitle,
+.docImprint,
+.docDate,
+.figure,
+.figDesc,
+.opener,
+.closer,
+.postscript,
+.gloss {
+    display:block;
+}
+
+.titlePage,
+.docTitle,
+.figure,
+.figDesc,
+.opener,
+.closer,
+.byline,
+.dateline,
+.salute {
+    display:block;
+    padding:1px;
+}
+
+.opener {
+    margin-bottom:.5em;
+}
+
+.closer {
+    margin-top:.5em;
+}
+
+.titlePart,
+.byline,
+.dateline,
+.salute,
+.signed {
+    display:block;
+    padding:2px;
+    margin:2px;
+    margin-bottom: 5px;
+}
+
+.byline {
+    font-size:smaller;
+    font-variant:small-caps;
+}
+
+.fw {
+    display:block;
+    padding:5px;
+    text-align:right;
+}
+
+.fw:before {
+    padding: 0px;
+    vertical-align: middle;
+    content: url('forme_work-16.png');
+}
+
+/* Inline elements for text */
+
+/* Elements with hidden Oxygen tags */
+.titlePart,
+.byline,
+.dateline,
+.salute,
+.signed,
+.abbr,
+.expan,
+.add,
+.del,
+.gap,
+.unclear,
+.supplied,
+.foreign,
+.ab,
+.seg,
+.term,
+.handShift,
+.pb,
+.pc,
+.title,
+.opener > *,
+.closer > * {
+  /*display: none;*/
+}
+
+.date,
+.persName,
+.orgName,
+.placeName,
+.district,
+.settlement,
+.region,
+.country,
+.bloc,
+.addrLine,
+.street,
+.postcode,
+.postbox {
+    color:olive;
+}
+
+.address {
+    background-color: rgba(64, 128, 64, 0.1);
+}
+
+.persName:focus:after,
+.placeName:focus:after,
+.orgName:focus:after,
+.district:focus:after,
+.settlement:focus:after,
+.region:focus:after,
+.country:focus:after,
+.bloc:focus:after {
+    padding-left: 2px;
+}
+
+
+/* Milestones or elements with no text */
+.pb,
+.handShift,
+.gap {
+  /*visibility: collapse;*/
+}
+
+.abbr {
+    background-color: rgba(0, 255, 0, 0.1);
+    font-weight:bold;
+}
+
+.expan {
+    background-color: rgba(128, 0, 0, 0.1);
+    font-style:italic;
+}
+
+.add {
+    color: green;
+    text-decoration: underline;
+    vertical-align: middle;
+}
+.add[data-place="below"] {
+  vertical-align:sub;
+}
+.add[data-place="above"] {
+  vertical-align: super;
+}
+
+.del {
+    color: red;
+    text-decoration: line-through;
+}
+
+.gap::before {
+    color:orange;
+    content: "[...]";
+    font-style: italic;
+}
+
+.unclear {
+    color: maroon;
+    font-style: italic;
+}
+
+.supplied:before {
+    font-weight:normal;
+    padding:0px;
+    content: "[";
+}
+
+.supplied {
+    color: blue;
+    font-style:italic;
+}
+
+.supplied:focus:after,
+.supplied:after {
+    border:0px;
+    padding:0px;
+    content: "]";
+}
+
+.pc {
+    color:purple;
+}
+
+.foreign {
+    color:#3D5229;
+    font-style:italic;
+    font-weight:bold;
+}
+
+.foreign:focus:after {
+  content: attr(data-xml-lang);
+  /*vertical-align: sub;*/
+}
+
+salute,
+seg[function='salute'] {
+    background-color:silver;
+    font-style:italic;
+}
+
+seg[function='formulaic']{
+    background-color: rgba(0, 128, 128, 0.2);
+    font-style:italic;
+}
+
+text title {
+    display:inline;
+    font-weight:bold;
+    text-decoration: underline;
+}
+
+text title:before {
+    padding-right: 2px;
+    vertical-align: middle;
+    content: url('title-16.png');
+}
+
+/* Note */
+
+.note {
+    font-size: 0;
+}
+
+.note:before{
+  font-size: smaller;
+  content: url('note-16.png');
+}
+
+.note:hover {
+  border: 1px solid maroon;
+  padding:1px;
+  font-size:smaller;
+  font-weight:bold;
+}
+
+
+/* @reason */
+
+.gap:hover:before,
+.supplied:hover:after,
+.unclear:hover:after {
+  font-size: small;
+  font-style: normal;
+  color: black;
+  vertical-align: sub;
+  content: attr(data-reason);
+}
+
+
+/* @place */
+.fw:before,
+.add:focus:after {
+  content: attr(place);
+  vertical-align: sub;
+}
+
+/* Page Break */
+.pb {
+    display:block;
+    background-color:transparent;
+    border-style:solid none;
+    border-width:1px 0px;
+    vertical-align:middle;
+    padding:5px;
+    margin:5px 0px;
+    font-weight:bold;
+    font-size:small;
+    line-height:1.5;
+}
+
+.pb:before {
+    padding: 0px;
+    vertical-align: middle;
+    content: url('page_break-16.png')
+}
+
+/* Hand References */
+.handShift {
+    padding:0px;
+    vertical-align: middle;
+    content: url('hand_shift-16.png');
+}
+
+.handShift:hover:after {
+  content: attr(data-script);
+  vertical-align: sub;
+}
+
+.add:focus:after,
+.del:focus:after,
+.unclear:focus:after,
+.gap:hover:after {
+  content: attr(data-hand);
+  vertical-align: sub;
+}
+
+.handShift[data-new]:hover:after {
+    padding-left: 5px;
+    vertical-align: middle;
+    content: url('hand_open-16.png');
+}
+
+[data-hand]:focus:after,
+.gap[data-hand]:hover:after {
+    padding-left: 5px;
+    vertical-align: middle;
+    content: url('hand_open-16.png');
+}
+
+/* Linking elements - anchors and pointers that refer to them (mainly for glosses) */
+
+.ab {
+    display:block;
+    border:1px solid green;
+}
+
+.seg:not([data-function]) {
+    border-top:1px solid blue;
+}
+
+.term {
+    background-color: rgba(0, 0, 128, 0.1);
+    font-style:italic;
+}
+
+.ab:focus:after,
+.seg:not([data-function]):focus:after,
+.term:focus:after {
+    content: attr(data-xml-id) " " attr(data-xml-lang);
+    vertical-align: sub;
+}
+
+.gloss:before {
+    background-color: rgba(0, 0, 255, 0.5);
+}
+
+.gloss[data-target]:after {
+    padding-left: 5px;
+    vertical-align: middle;
+    content: url('link_open-16.png');
+}
+
+
+/* Linguistic units and annotations */
+
+.s,
+.cl,
+.phr,
+.w,
+.pc,
+.num,
+.measure {
+    vertical-align:bottom;
+    padding-top:2px;
+    /*display: none;*/
+}
+
+.s {
+    border:1px solid rgb(53, 25, 0);
+}
+
+.cl {
+    border:1px solid rgb(64, 64, 255);
+}
+
+.phr {
+    border:1px solid rgb(0, 128, 0);
+}
+
+.w {
+    border:1px solid rgb(0, 49, 200);
+}
+
+.pc {
+    border:1px solid rgb(0, 49, 200);
+}
+
+.num {
+    border:1px solid rgb(255, 128, 0);
+}
+
+.measure {
+    border:1px solid rgb(128, 0, 255);
+}
+/*-----------------------------------------------------------------------------------------------
+----- HisTEI framework customizations for Oxygen
+-----   CSS Styles for global fields - used in documents and contextual info
+-------------------------------------------------------------------------------------------------*/
+
+/* Global Fields */
+
+/* All Labels */
+*:before {
+    font-weight:bold;
+    padding-left:1px;
+    padding-top:1px;
+    padding-bottom:1px;
+    padding-right:10px;
+}
+
+/* Field Icons */
+.date:before,
+.persName:before,
+.orgName:before,
+.placeName:before,
+.district:before,
+.settlement:before,
+.region:before,
+.country:before,
+.bloc:before,
+.address:before,
+.addrLine:before,
+.street:before,
+.postCode:before,
+.postBox:before {
+    padding-right: 2px;
+    vertical-align: middle;
+}
+
+.date:before {
+  content: url('date-16.png');
+}
+.persName:before {
+  content: url('person-16.png');
+}
+.orgName:before {
+  content: url('org-16.png');
+}
+.placeName:before {
+  content: url('place-16.png');
+}
+.district:before {
+  content: url('district-16.png');
+}
+.settlement:before {
+  content: url('settlement-16.png');
+}
+.region:before {
+  content: url('region-16.png');
+}
+.country:before {
+  content: url('country-16.png');
+}
+.bloc:before {
+  content: url('bloc-16.png');
+}
+
+/* Address */
+.address:before {
+  content: url('address-16.png');
+}
+.addrLine:before {
+  content: url('address_line-16.png');
+}
+.street:before {
+  content: url('street-16.png');
+}
+.postCode:before {
+  content: url('postcode-16.png');
+}
+.postBox:before {
+  content: url('postbox-16.png');
+}
+
+/* Date */
+
+.date:empty:after,
+.date:not(:empty):focus:after,
+.birth,
+.death,
+.event,
+.affiliation,
+.education:focus:after,
+.faith:focus:after,
+.occupation:focus:after,
+.relation:focus:after,
+.residence,
+.socecStatus:focus:after,
+.state:focus:after,
+.trait:focus:after {
+    border:1px solid;
+    margin:2px 0px;
+    padding:3px;
+    font-size:small;
+    font-weight:normal;
+    line-height:1.25em;
+}
+
+/* Links */
+ .ptr, .ref, .note[data-type="url"] {
+    color:blue;
+}
+
+.ptr, .ref {
+    border:1px dashed;
+}
+
+.ptr:before,
+.ref:before {
+    padding-right: 2px;
+    vertical-align: middle;
+    content: url('link-16.png');
+}
+
+.ptr[data-target]:after,
+.ref[data-target]:after {
+    padding-left: 5px;
+    vertical-align: middle;
+    content: url('link_open-16.png');
+}
+
+.ptr:hover:after,
+.ref:focus:after {
+  padding:5px;
+  content: attr(target);
+  vertical-align: sub;
+}
+
+
+.note[data-type="url"]:after {
+  padding-left:5px;
+  vertical-align: middle;
+  content: url('link_open-16.png');
+}
+
+/* Headings & Labels */
+
+.head {
+    display:block;
+    font-weight:bold;
+    padding:5px;
+    border-bottom:1px solid;
+}
+
+.head[data-type="title"] {
+    font-size:larger;
+}
+
+.head[data-type="sub"] {
+    font-size:smaller;
+    font-variant:small-caps;
+}
+
+.head:before {
+    padding-right: 2px;
+    vertical-align: middle;
+    content:url('head-16.png') attr(type)"  ";
+}
+
+.label {
+    display:block;
+    font-weight:bold;
+    padding:2px;
+    margin:3px;
+}
+
+.label:before{
+    padding-right: 2px;
+    vertical-align: middle;
+    content: url('label-16.png');
+}
+
+/* Paragraph and accompanying Line Break */
+
+.p:before{
+    padding: 0px;
+    vertical-align: middle;
+    content: url('paragraph-16.png');
+}
+
+.p {
+    display:block;
+    padding:2px;
+    margin:2px;
+    margin-bottom: 10px;
+}
+
+.lb::after  {
+  content:url('line_break-12.png') "\A";
+}
+
+.lb[data-break="yes"] {
+  /*display: block;*/
+}
+
+.lb[data-break="no"] {
+    color:purple;
+    font-weight:bold;
+    /* Possibilities: → – */
+    content:"→\A";
+}
+
+
+/* Global Textual Styles */
+.hi[data-rend="bold"] {
+  font-weight:bold;
+}
+
+.hi[data-rend="italic"] {
+  font-style:italic;
+}
+
+.hi[data-rend="superscript"] {
+    font-size:small;
+    vertical-align:super;
+}
+
+.hi[data-rend="subscript"] {
+    font-size:small;
+    vertical-align:sub;
+}
+
+.hi[data-rend="underline"] {
+  text-decoration:underline;
+}
+/*-----------------------------------------------------------------------------------------------
+----- HisTEI framework customizations for Oxygen
+-----   made to the TEI css available at
+-----   http://tei.svn.sourceforge.net/viewvc/tei/trunk/TEICSS/
+-------------------------------------------------------------------------------------------------*/
+
+.fileDesc,
+.titleStmt,
+.title,
+.publicationStmt,
+.authority,
+.sourceDesc,
+.interpGrp,
+.interp {
+    display:block;
+}
+
+/* Foldable Sections */
+.listPerson,
+.listPlace,
+.listOrg,
+.listRelation,
+.listEvent,
+.taxonomy:not(:empty),
+.person,
+.relation,
+.place,
+.org,
+.event,
+.birth,
+.death,
+.residence,
+.affiliation,
+.category,
+.location,
+.address,
+.note[data-type="collections"],
+.note[data-type="collection"],
+.note[data-type="inventories"],
+.note[data-type="inventory"],
+.interpGrp {
+    display:block;
+}
+
+
+/* Main Sections */
+.listPerson:before,
+.listPlace:before,
+.listOrg:before,
+.listRelation:before,
+.listEvent:before,
+.taxonomy:not(:empty):before,
+.person:before,
+.place:before,
+.org:before,
+.category:before,
+.event:before,
+.location:before,
+.address:before,
+.note[data-type="collections"]:before,
+.note[data-type="collection"]:before,
+.note[data-type="inventories"]:before,
+.note[data-type="inventory"]:before,
+.interpGrp:before {
+    display:block;
+    color:white;
+    background-color:gray;
+    font-weight:bold;
+    width:100%;
+    margin:5px;
+}
+
+.listRelation:before {
+    background-color: rgba(64, 64, 255, 0.7);
+}
+
+.address:before,
+.note[data-type="inventory"]:before {
+    background-color:rgba(53, 25, 0, 0.6);
+}
+
+.person:before,
+.place:before,
+.org:before,
+.category:before,
+.note[data-type="collection"]:before,
+.listEvent:before,
+.event:before {
+    background-color: rgba(0, 49, 200, 0.7);
+}
+
+/* Section labels */
+.listPerson:before! > .listPerson,
+.listPlace:before! > listPlace,
+.listOrg:before! > .listOrg,
+.listRelation:before,
+.listEvent:before,
+.taxonomy:not(:empty):before,
+.person:before,
+.place:before,
+.org:before,
+.category:before,
+.event:before,
+.birth:before,
+.death:before,
+.residence:before,
+.affiliation:before,
+.location:before,
+.address:before {
+    display:block;
+}
+
+.person:before,
+.place:before,
+.org:before,
+.category:before,
+.note[data-type="collection"]:before,
+.note[data-type="inventory"]:before {
+    font-style:italic;
+}
+
+/* Special labels for lists without a specified type */
+.listPerson > .listPerson:before,
+.listPlace > .listPlace:before,
+.listOrg > .listOrg:before {
+    background-color:rgba(53, 25, 0, 0.6);
+}
+
+/* Special labels for lists with a specified type */
+.listPerson > .listPerson[data-type]:before,
+.listPlace > listPlace[data-type]:before,
+.listOrg > .listOrg[data-type]:before,
+.interpGrp[data-type]:before {
+  background-color:rgba(53, 25, 0, 0.6);
+    content:  attr(data-type);
+}
+
+/* Special labels for the notes with specific functions
+    these are all essentially custom fields for the Amsterdam project */
+.note[data-type="collections"]:before,
+.note[data-type="collection"]:before,
+.note[data-type="inventories"]:before,
+.note[data-type="inventory"]:before {
+    display:block;
+    content: attr(type, string, "");
+}
+
+/* Field labels */
+
+
+/* Fields specific to contextual info */
+.title,
+.authority,
+.sourceDesc,
+.persName,
+.orgName,
+.placeName,
+.district,
+.settlement,
+.region,
+.country,
+.bloc,
+.relation,
+.catDesc,
+.desc,
+.sex,
+.idno,
+.education,
+.occupation,
+.socecStatus,
+.faith,
+.addrLine,
+.date[data-type="added"],
+.note[data-type="inCorpus"],
+.note[data-type="family"],
+.note[data-type="generation"],
+.note[data-type="marriage-partner"],
+.note[data-type="hours"],
+.note[data-type="searched"],
+.note[data-type="user"],
+.note[data-type="website"],
+.name[data-type="short"],
+.name[data-type="full"] {
+    display:block;
+    padding:1px;
+}
+
+/* Special labels for fields with an <elementName>.label.<type> naming pattern */
+.note[data-type="added"] {
+    display:block;
+    /*visibility:collapse;*/
+}
+
+.date[data-type="added"] {
+    display:block;
+    border:none;
+    content: attr(data-when);
+}
+
+/* Special labels for custom fields from the Amsterdam project */
+.idno[data-type]:before {
+    content:attr(type);
+}
+
+/* Sections */
+.person:before {
+    content: attr(data-type);
+}
+
+.relation:before {
+    content:attr(data-name);
+}
+
+/* Records with editable IDs */
+.org:before {
+    content: attr(data-xml-id);
+}
+
+/* Person */
+
+/* Special labels for typed names */
+.forename[data-type]:before,
+.nameLink[data-type]:before,
+.surname[data-type]:before,
+.addName[data-type]:before {
+    content:attr(data-type);
+}
+
+.sex {
+    /*visibility:collapse;
+    display: none;*/
+    content: attr(data-value);
+        /*oxy_combobox(
+                edit, "@value"
+                editable, false
+                values, "1, 2, 0"
+                labels, "male, female, unknown"
+        )
+    ;*/
+}
+
+/* Genre */
+.category:before! > .category {
+    content: attr(data-xml-id);
+}
+
+/* Annotations */
+
+/* Interp fields */
+.interp {
+    content: attr(data-xml-id);
+}
+
+/* Inline elements for text */
+.person > .persName,
+.place > .placeName,
+.org > .orgName,
+.desc,
+.catDesc {
+    padding:5px 1px;
+}
+
+.desc .date,
+.desc .persName,
+.desc .placeName,
+.desc .orgName,
+.desc .district,
+.desc .settlement,
+.desc .region,
+.desc .country,
+.desc .bloc {
+    color:olive;
+}
+
+.desc .persName:focus:after,
+.desc .placeName:focus:after,
+.desc .orgName:focus:after,
+.desc .district:focus:after,
+.desc .settlement:focus:after,
+.desc .region:focus:after,
+.desc .country:focus:after,
+.desc .bloc:focus:after {
+    padding-left: 2px;
+}

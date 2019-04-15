@@ -1,0 +1,29 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  database: lacrDB_development
+  username: postgres
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: db
+  #host: localhost # Used only for local testing
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: lacrDB_development
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &test
+  <<: *default
+  database: lacrDB_test
+
+production:
+  <<: *default
+  database: lacrDB_production
+
+cucumber:
+  <<: *test

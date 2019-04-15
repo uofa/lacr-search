@@ -1,0 +1,50 @@
+/* Place all the styles related to the Documents controller here.
+* They will automatically be included in application.css.
+* You can use Sass (SCSS) here: http://sass-lang.com/
+
+*= require annotation.css
+*/
+
+ // Styles for image zoom jquery plugin
+  .zoom {
+		display:inline-block;
+		position: relative;
+	}
+
+	/* magnifying glass icon */
+	.zoom:after {
+		content:'';
+		display:block;
+		width:33px;
+		height:33px;
+		position:absolute;
+		top:0;
+		right:0;
+		background:url('magnifying_glass_icon.png');
+	}
+	.zoom img {
+		display: block;
+	}
+	.zoom img::selection { background-color: transparent; }
+
+.doc-tools {
+  display: none;
+}
+#doc-browse {
+  display: none;
+}
+#doc_view {
+  display: none;
+}
+
+// Fix for documents browser collapse (Overwrite .list-group-item)
+.collapse{
+  display: none;
+}
+.collapse .in{
+  display: block;
+}
+// Change the cursor for list items
+.list-group-item{
+  cursor: pointer;
+}

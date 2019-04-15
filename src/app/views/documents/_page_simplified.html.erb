@@ -1,0 +1,36 @@
+<div class="col-md-12">
+
+  <% @documents.each do |document| %>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+        <div class="row">
+					<% if document.entry %><div class="col-sm-4">
+						<strong>ID: </strong><span><%= document.entry %></span>
+					</div>
+          <%end%>
+
+          <%if document.date or document.date_incorrect %>
+					<div class="col-sm-4">
+						<strong>Date: </strong><span><% if document.date_incorrect %><%= document.date_incorrect %><% else %><%= document.date %><% end %></span>
+					</div>
+          <%end%>
+
+          <%if document.lang %>
+					<div class="col-sm-4">
+						<strong>Language: </strong><span class="pr-language"><%= document.lang %></span>
+					</div> <!-- col-md-4 -->
+          <%end%>
+				</div> <!-- row -->
+			</div>  <!-- panel-heading -->
+			<div class="panel-body">
+				<pre class="prettyprint transcription" style="display: none;"><code class="language-xml"><%= document.tr_paragraph.content_xml.gsub(/^\s+/, ' ')%></code></pre>
+				<div class="transcription tr-text"><%= document.tr_paragraph.content_html.html_safe %></div>
+			</div> <!-- panel-body -->
+      <div class="panel-footer">
+        <div class="checkbox">
+          <label><input class="add-to-list" data-entry="<%= document.entry %>" type="checkbox"> Add to selected</label>
+        </div>
+      </div>
+		</div> <!-- panel panel-primary -->
+  <% end %>
+</div> <!-- col-md-6 -->

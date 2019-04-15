@@ -1,0 +1,89 @@
+<div class="container">
+  <h1>Enter Query</h1>
+  <%= render "xquery/search_form" %>
+  <h3>How do I use XQuery?</h3><br>
+  <a href="https://www.w3schools.com/xml/xquery_intro.asp" target="_blank">A helpful guide on XQuery provided by w3schools</a><br>
+  <a href="https://en.wikibooks.org/wiki/XQuery#Example_Scripts" target="_blank">Comprehensive examples provided by wikibooks</a>
+
+  <br>
+  <br>
+
+  <h1 align ="center">XQuery examples</h1>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+            <h2>Search for element</h2>
+
+            <p>XPath can be used to return all elements of with specific language</p>
+            <pre>//ns:div[@xml:lang="lat"]</pre>
+            <ul>
+              <li><code>//</code> Selects nodes that match the selection no matter where they are.</li>
+             <li><code>ns:</code> Is used to specify the HisTEI namespace.</li>
+             <li><code>div </code> Selects all div elements.</li>
+             <li><code>@xml:lang </code> Specifies the the requirement to have an attribute named xml:lang <i>(language)</i>.</li>
+             <li><code>="lat"</code> Specifies language as Latin.</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h2>Specify date in query</h2>
+            <p>XQuery expression to filter the results by criteria such as date</p>
+            <pre>for $i in //ns:div[@xml:lang="lat"]<br>where $i/ancestor::ns:div//ns:date[@when="1501-10-20"]<br>return $i</pre>
+            <ul>
+              <li><code>for $i in //ns:div[@xml:lang="lat"]</code> Starts a loop which iterates trough each result from the <i><b>Search for element</b></i> query.</li>
+             <li><code>where $i/ancestor::ns:div//ns:date[@when="1501-10-20"]</code> the elements can be filtered by specifing criteria. In this instance the date being "1501-10-20"</li>
+             <li><code>return $i</code> if a element matches the date 1501-10-20, it will shown as result on the result page.</li>
+           </ul>
+         </div>
+         <div class="col-md-4">
+            <h2>Specify year ranges</h2>
+            <p>Search through time period by using regular expressions</p>
+            <pre>for $i in //ns:div[@xml:lang="lat"]<br>where $i/ancestor::ns:div//ns:date[@when >"1501-1-1"][@when <"1502-12-31"]<br>return $i</pre>
+            <ul>
+             <li>Simmilar to <i><b>Specify a year in query</b></i> where the results are filtered by only a specific date in this instance the date is filtered using date range from <b>1501-1-1</b> until <b>1501-12-31</b>.
+            </ul>
+         </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Count number of in prticular language words</h2>
+            <p>XQuery expression which counts the number of words in Scots and Latin</p>
+            <pre><code>for $lang in ("lat", "sco")
+return (
+  concat("Words annotated as ", $lang, ": ",
+    count(for $j in (
+        for $i in //ns:div[@xml:lang = $lang ][@xml:id >"ARO-5-0730-01"][@xml:id <"ARO-5-0730-03"]//*
+        return if (not($i/@xml:lang) or $i/@xml:lang = $lang) then (
+                      tokenize(  normalize-space(  string-join( $i/text(), ' ')  ), ' '  )
+                   ) else ()
+         )
+         where matches($j, '[0-9a-zA-Z]')
+         return $j
+    )
+    +
+    count(for $j in (
+        for $i in //ns:div[@xml:lang != $lang][@xml:id >"ARO-5-0730-01"][@xml:id <"ARO-5-0730-03"]//*
+        return if ($i/@xml:lang = $lang) then (
+                      tokenize(  normalize-space(  string-join( $i/text(), ' ')  ), ' '  )
+                   ) else ()
+         )
+         where matches($j, '[0-9a-zA-Z]')
+         return $j
+    )
+  )
+)</code></pre>
+            <ul>
+              <li>This rather complex example which aim is to demonstrate how the number of words in Scots and Latin language within different pages could be counted.</li>
+              <li><code>for $lang in ("lat", "sco")</code> We perform the same opertaion for both languages codes <b>"lat"</b> (Latin) and <b>"sco"</b> (Scots)</li>
+              <li><code>[@xml:id >"ARO-5-0730-01"][@xml:id <"ARO-5-0730-03"]</code>Search for pages with <b>xml:id</b> between <b>ARO-5-0730-01</b> and <b>ARO-5-0730-03</b></li>
+              <li>Here we handle two different cases and calculate the sum from both results:
+                <ul>
+                  <li>1. Count all space separated words which are not annotated with language different than the rest of the Page. For instance, count all words on a page annotated as Scots which are not explicitly annotated with other language code.</li>
+                  <li>2. Count all space separated words which are annotated with language different than the rest of the Page. For instance, count all words annotated as Scots within pages annotated as Latin or any other language different than Scots.</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  <br>
+</div>

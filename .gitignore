@@ -1,0 +1,8 @@
+src/tmp
+src/tmp/*
+src/public/uploads
+src/public/uploads/*
+src/log
+src/log/*
+.env
+

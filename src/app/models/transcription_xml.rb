@@ -135,8 +135,8 @@ class TranscriptionXml < ApplicationRecord
       # Split entryID
       volume, page, paragraph = splitEntryID(entry)
       # Overwrite if exists
-      if Search.exists?(page: page, volume: volume, paragraph: paragraph)
-        s = Search.find_by(page: page, volume: volume, paragraph: paragraph)
+      if Search.exists?(entry: entry_id)
+        s = Search.find_by(entry: entry_id)
         # Get existing paragraph
         pr = s.tr_paragraph
       else
@@ -205,9 +205,9 @@ class TranscriptionXml < ApplicationRecord
         #    has started in the previous entry
         # -> The document is overwritten
         #
-        if Search.exists?(page: newPage, volume: volume, paragraph: 1)
+        if Search.exists?(entry: oldEntryId, paragraph: 1)
           # Get existing paragraph
-          s = Search.find_by(page: newPage, volume: volume, paragraph: 1)
+          s = Search.find_by(entry: oldEntryId, paragraph: 1)
           # Get paragraph record
           pr = s.tr_paragraph
           # Store the updated content for the paragraph record
@@ -232,7 +232,7 @@ class TranscriptionXml < ApplicationRecord
         textContentSecondPart =(Nokogiri::XML("<p>"+xmlContentSecondPart.gsub('<lb break="yes"/>', "\n")+"</p>")).xpath('normalize-space()')
 
         # Find the original record
-        previousEntry = Search.find_by(volume: volume,page: page,paragraph: paragraph)
+        previousEntry = Search.find_by(entry: oldEntryId)
 
         # Create Search record
         s.tr_paragraph = pr

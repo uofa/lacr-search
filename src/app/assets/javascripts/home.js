@@ -89,6 +89,18 @@ $('.fp-controlArrow-down').click(function(){
     $.fn.fullpage.moveSectionDown();
 });
 
+$('input[name=vc]').on('change', function() {
+  toggle_volume_list();
+});
+
+toggle_volume_list = function() {
+  if ($("input[name=vc]:checked").val() == 0) {
+    $('.volume-chooser .list').css('display', 'none');
+    $("input.vol").prop('checked', true);
+  } else {
+    $('.volume-chooser .list').css('display', 'block');
+  }
+}
 
 function submitForm(){
   var name=$('.vol');

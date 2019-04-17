@@ -56,12 +56,19 @@
         </div>
         <div class="col-sm-9 col-md-10">
           <input type="hidden" name="v" value="">
-          <% @volumes.each do |v| %>
-            <label class="checkbox-inline">
-              <input type="checkbox" class="vol" value="<%= v.volume %>" checked="checked">
-              Volume <%= v.volume %>
-            </label>
-          <% end %>
+          <ul class="volume-chooser">
+            <li class="radio"><label><input type="radio" name="vc" value="0" checked />All Volumes</label></li>
+            <li class="radio"><label><input type="radio" name="vc" value="1" />Selected Volumes</label>
+              <ul class="list">
+                <% @volumes.each do |v| %>
+                  <li><label class="checkbox-inline">
+                    <input type="checkbox" class="vol" value="<%= v.volume %>" checked="checked">
+                    Volume <%= v.volume %>
+                  </label></li>
+                <% end %>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="row form-group">

@@ -75,6 +75,7 @@ class SearchController < ApplicationController
           suggest: true, # Enable suggestions
           load: false # Do not retrieve data from PostgreSQL
     end
+    @debug_page = permited[:page]
   end
 
   def autocomplete

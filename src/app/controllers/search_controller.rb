@@ -70,7 +70,7 @@ class SearchController < ApplicationController
           where: get_adv_search_params(permited), # Parse adv search parameters
           match: get_serch_method(permited), # Parse search method parameter
           order: get_order_by(permited), # Parse order_by parameter
-#          highlight: {tag: "<mark>"}, # Set html tag for highlight
+          highlight: {tag: "<mark>"}, # Set html tag for highlight
           fields: ['content'], # Search for the query only within content
           suggest: true, # Enable suggestions
           load: false # Do not retrieve data from PostgreSQL

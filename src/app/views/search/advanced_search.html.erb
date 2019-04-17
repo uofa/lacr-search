@@ -50,10 +50,10 @@
         </div>
         <div class="col-sm-9 col-md-10">
           <input type="hidden" name="v" value="">
-          <ul >
-            <li class="radio"><label><input type="radio" name="sm" value="0" checked />All Volumes</label></li>
-            <li class="radio"><label><input type="radio" name="sm" value="1" />Selected Volumes</label>
-              <ul>
+          <ul class="volume-chooser">
+            <li class="radio"><label><input type="radio" name="vc" value="0" checked />All Volumes</label></li>
+            <li class="radio"><label><input type="radio" name="vc" value="1" />Selected Volumes</label>
+              <ul class="list">
                 <% @volumes.each do |v| %>
                   <li><label class="checkbox-inline">
                     <input type="checkbox" class="vol" value="<%= v.volume %>" checked="checked">

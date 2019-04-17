@@ -238,3 +238,13 @@
     max-width: 150px;
   }
 }
+
+.volume-chooser {
+  padding-left: 0;
+  .list {
+    display: none;
+    li:first-child {
+      padding-top: 0;
+    }
+  }
+}

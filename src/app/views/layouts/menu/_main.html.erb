@@ -23,6 +23,7 @@
 
   <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-menu">
     <ul class="nav navbar-nav">
+      <li id='aberdeen-registers-online'><%= link_to 'Aberdeen Registers Online', 'https://aberdeenregisters.org' %></li>
       <li id="documents-btn" <%if cookies[:selected_entries] %> style="display:none;"<%end%>><%= link_to "Documents", doc_path %></li>
       <li id="documents-selected-btn" <%if !cookies[:selected_entries] %> style="display:none;"<%end%>>
         <div class = "btn-group">

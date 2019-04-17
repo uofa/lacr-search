@@ -37,11 +37,17 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-sm-3" style="max-width: 170px; padding-right: 0;">
-              <label for="spellVar">Spelling variants (<input name="m" type="text" id="spellVar" readonly style="border:0; font-weight:bold; text-align:center; width: 12px;">):</label>
+            <div class="col-sm-3 col-md-2">
+              <label for="spellVar">Spelling variants:</label>
             </div>
-            <div class="col-sm-7">
-              <div id="slider-spellVar"></div>
+            <div class="col-sm-3 col-md-2">
+              <select class="form-control" id="spellVar" name="m">
+                <option value="0">0</option>
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
             </div>
         </div>
       <div class="row form-group">

@@ -37,7 +37,7 @@ gem 'prawn' # PDF file generator
 gem 'will_paginate-bootstrap' # Pagination library
 
 # API for Elasticsearch
-gem 'searchkick'
+gem 'searchkick', '~> 3.1.2'
 gem 'oj' # Significantly increase performance with faster JSON generation.
 gem 'typhoeus' # Significantly increase performance with persistent HTTP connections
 

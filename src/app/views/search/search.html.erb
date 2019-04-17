@@ -1,4 +1,10 @@
 <div class="container" >
+<p>DEBUG: @document.total_count: <%= @documents.total_count %></p>
+<p>DEBUG: @document.count: <%= @documents.count %></p>
+<p>DEBUG: @document.length: <%= @documents.length %></p>
+<p>DEBUG: @results_per_page: <%= @results_per_page %></p>
+<p>DEBUG: page: <%= permited[:page] %></p>
+
 <%= render '/search/search_tools' %>
 <% begin defined? @documents.suggestions %>
   <div class="row">

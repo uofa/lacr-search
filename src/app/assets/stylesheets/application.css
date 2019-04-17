@@ -219,6 +219,7 @@ a {
 }
 .navbar-brand{
   text-align: center;
+  padding-right: 0;
 }
 
 #noty_topRight_layout_container{

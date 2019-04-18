@@ -25,11 +25,11 @@
     <ul class="nav navbar-nav">
       <li id='aberdeen-registers-online' class="hidden-sm"><%= link_to 'Aberdeen Registers Online', 'https://aberdeenregisters.org' %></li>
       <li id='aberdeen-registers-online' class="hidden-xs hidden-md hidden-lg"><%= link_to 'ARO', 'https://aberdeenregisters.org' %></li>
-      <li id="documents-btn" <%if cookies[:selected_entries] %> style="display:none;"<%end%>><%= link_to "Documents", doc_path %></li>
+      <li id="documents-btn" <%if cookies[:selected_entries] %> style="display:none;"<%end%>><%= link_to "Browse", doc_path %></li>
       <li id="documents-selected-btn" <%if !cookies[:selected_entries] %> style="display:none;"<%end%>>
         <div class = "btn-group">
           <button type = "button" class = "btn btn-link dropdown-toggle" data-toggle = "dropdown">
-            Documents <span id="doc_caret" data-toggle="tooltip" data-placement="bottom" title="View selected documents" class="caret"></span>
+            Browse <span id="doc_caret" data-toggle="tooltip" data-placement="bottom" title="View selected documents" class="caret"></span>
             <span class = "sr-only">Toggle Dropdown</span>
           </button>
           <ul class = "dropdown-menu" role = "menu">

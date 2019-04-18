@@ -12,12 +12,10 @@
     </div>
     <div class="col-xs-6 text-right">
       <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
-      <button type="button" id="toggleChart-1" style="display:none;" class="btn btn-sm btn-primary" onclick="loadChart();">Toggle Timeline</button>
     </div>
     <%else%>
     <div class="col-xs-12 text-right">
       <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
-      <button type="button" id="toggleChart-1" style="display:none;" class="btn btn-sm btn-primary" onclick="loadChart();">Toggle Timeline</button>
     </div>
     <%end%>
   </div>
@@ -96,10 +94,6 @@
 
 <% if @documents.length > 0 %>
 <% content_for :javascript_includes do %>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <%= javascript_include_tag "search.js" %>
-  <script type="text/javascript">
-    loadChart('<%= ajax_search_chart_worddate_path(:term => @query)%>');
-  </script>
 <%end%>
 <%end%>

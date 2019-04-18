@@ -197,7 +197,7 @@ class TranscriptionXml < ApplicationRecord
 
         # Split the id into page, paragraph, volume
         volume, page, paragraph = splitEntryID(oldEntryId)
-        newPage = page + 1
+        newPage = entry.xpath('.//xmlns:pb').attribute('n').value
 
         #
         # Insert the extracted content in the new paragraph

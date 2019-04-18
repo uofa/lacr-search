@@ -34,6 +34,9 @@ RUN apt-get install -y curl
 # For image conversion
 RUN apt-get install -y imagemagick
 
+# Create old uploads stub in the container
+RUN mkdir -p /old-uploads
+
 # Create the server direcotory in the container
 RUN mkdir -p /lacr-search
 WORKDIR /lacr-search

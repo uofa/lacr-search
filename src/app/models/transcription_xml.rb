@@ -51,6 +51,8 @@ class TranscriptionXml < ApplicationRecord
     # Volume = the volume of any div in the document (Assuming it is always the same)
     volume = splitEntryID(doc.xpath('//xmlns:div[@xml:id]/@xml:id', 'xmlns' => HISTEI_NS)[0])[0]
 
+    # search_xml_order = []
+
     # Fix for empty pages
     page_breaks.each do |pb|
       begin
@@ -70,6 +72,7 @@ class TranscriptionXml < ApplicationRecord
           s.tr_paragraph = pr
           s.transcription_xml = self
           s.save
+          # search_xml_order << s
         end
       rescue Exception => e
         logger.error(e)
@@ -135,8 +138,8 @@ class TranscriptionXml < ApplicationRecord
       # Split entryID
       volume, page, paragraph = splitEntryID(entry)
       # Overwrite if exists
-      if Search.exists?(page: page, volume: volume, paragraph: paragraph)
-        s = Search.find_by(page: page, volume: volume, paragraph: paragraph)
+      if Search.exists?(entry: entry_id)
+        s = Search.find_by(entry: entry_id)
         # Get existing paragraph
         pr = s.tr_paragraph
       else
@@ -164,6 +167,7 @@ class TranscriptionXml < ApplicationRecord
       # Replace line-break tag with \n and normalize whitespace
       s.content = entry_text
       s.save
+      # search_xml_order << s
     end
 
     doc = Nokogiri::XML (File.open(xml.current_path))
@@ -205,9 +209,9 @@ class TranscriptionXml < ApplicationRecord
         #    has started in the previous entry
         # -> The document is overwritten
         #
-        if Search.exists?(page: newPage, volume: volume, paragraph: 1)
+        if Search.exists?(entry: oldEntryId, paragraph: 1)
           # Get existing paragraph
-          s = Search.find_by(page: newPage, volume: volume, paragraph: 1)
+          s = Search.find_by(entry: oldEntryId, paragraph: 1)
           # Get paragraph record
           pr = s.tr_paragraph
           # Store the updated content for the paragraph record
@@ -232,7 +236,7 @@ class TranscriptionXml < ApplicationRecord
         textContentSecondPart =(Nokogiri::XML("<p>"+xmlContentSecondPart.gsub('<lb break="yes"/>', "\n")+"</p>")).xpath('normalize-space()')
 
         # Find the original record
-        previousEntry = Search.find_by(volume: volume,page: page,paragraph: paragraph)
+        previousEntry = Search.find_by(entry: oldEntryId)
 
         # Create Search record
         s.tr_paragraph = pr
@@ -247,21 +251,40 @@ class TranscriptionXml < ApplicationRecord
         # Replace line-break tag with \n and normalize whitespace
         s.content = "#{textContentSecondPart}\n#{s.content}"
         s.save
+        # search_xml_order.insert(search_xml_order.index(previousEntry), s)
 
         previousEntry.content = textContentFirstPart
         # Get paragraph record
-        prPreviusEntry = previousEntry.tr_paragraph
+        prPreviousEntry = previousEntry.tr_paragraph
         # Remove duplicated content from entry which contains the page break
-        prPreviusEntry.content_xml = xmlContentFirstPart
-        prPreviusEntry.content_html = htmlContentFirstPart.to_xml
-        prPreviusEntry.save
+        prPreviousEntry.content_xml = xmlContentFirstPart
+        prPreviousEntry.content_html = htmlContentFirstPart.to_xml
+        prPreviousEntry.save
         # Save the change
-        previousEntry.tr_paragraph = prPreviusEntry
+        previousEntry.tr_paragraph = prPreviousEntry
         previousEntry.save
       rescue Exception => e
         logger.error(e)
       end
     end
 
+    # Clean up unneeded empty pages
+    Search.where(entry: nil).each do |empty|
+      empty.delete unless Search.where(volume: empty.volume, page: empty.page, paragraph: empty.paragraph).count == 1
+    end
+
+    # xml_order_index = 0
+    # search_xml_order.each do |sxo|
+    #   begin
+    #     search = Search.find(sxo.id)
+    #     if search
+    #       search.xml_order = xml_order_index
+    #       search.save
+    #       xml_order_index += 1
+    #     end
+    #   rescue ActiveRecord::RecordNotFound
+    #     # Okay it's not there, ignore
+    #   end
+    # end
   end
 end

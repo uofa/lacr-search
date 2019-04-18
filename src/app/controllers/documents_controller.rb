@@ -55,7 +55,7 @@ class DocumentsController < ApplicationController
       # Store the volume and page from the input
       @volume, @page = params[:v].to_i, params[:p].to_i
       # Select Documents
-      @documents = Search.order(:paragraph).where('volume' => @volume).rewhere('page' => @page)
+      @documents = Search.order(:entry).where('volume' => @volume).rewhere('page' => @page)
       if @documents.length > 0
         # Select image
         respond_to do |format|

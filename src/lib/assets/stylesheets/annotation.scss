@@ -272,6 +272,22 @@
     text-decoration: line-through;
 }
 
+.space {
+  &:before {
+    color:orange;
+    content: "[...]";
+    font-style: italic;
+    padding-right: 0;
+  }
+  &:hover:before {
+    font-size: small;
+    font-style: normal;
+    color: black;
+    vertical-align: sub;
+    content: 'space';
+  }
+}
+
 .gap::before {
     color:orange;
     content: "[...]";

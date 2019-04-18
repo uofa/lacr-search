@@ -78,12 +78,18 @@ end
 
 def import_images_from(directory)
   image_dir = Dir.new(File.join(directory, 'image'))
-  image_dir.entries.reject { |f| ['.', '..'].include?(f) }.each do |filename|
-    # file_path = File.join(image_dir.path, filename)
+  image_dir.entries.select { |f| is_valid_image?(f) }.each do |filename|
+    file_path = File.join(image_dir.path, filename)
     puts("Importing Image: #{filename}")
     t = PageImage.new
-    t.image = filename
+    t.image = File.new(file_path)
     t.parse_filename_to_volume_page filename
     t.save!
   end
+end
+
+def is_valid_image?(f)
+  return false if ['.', '..'].include?(f)
+
+  f.downcase.ends_with?('.tiff') || f.downcase.ends_with?('.tif')
 end

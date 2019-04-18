@@ -1,11 +1,11 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
-    <span class="hidden-sm hidden-md hidden-lg">
-      <%= link_to "LACR Search", root_path+"#homepage", class: "navbar-brand" %>
+    <span class="hidden-lg">
+      <%= link_to "LACR - Search", root_path+"#homepage", class: "navbar-brand" %>
     </span>
-    <span class="hidden-xs">
-      <%= link_to "Aberdeen Council Registers", root_path+"#homepage", class: "navbar-brand" %>
+    <span class="hidden-xs hidden-sm hidden-md">
+      <%= link_to "Law in the Aberdeen Council Registers - Search", root_path+"#homepage", class: "navbar-brand" %>
     </span>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-menu">
       <span class="sr-only">Toggle navigation</span>
@@ -23,6 +23,8 @@
 
   <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-menu">
     <ul class="nav navbar-nav">
+      <li id='aberdeen-registers-online' class="hidden-sm"><%= link_to 'Aberdeen Registers Online', 'https://aberdeenregisters.org' %></li>
+      <li id='aberdeen-registers-online' class="hidden-xs hidden-md hidden-lg"><%= link_to 'ARO', 'https://aberdeenregisters.org' %></li>
       <li id="documents-btn" <%if cookies[:selected_entries] %> style="display:none;"<%end%>><%= link_to "Documents", doc_path %></li>
       <li id="documents-selected-btn" <%if !cookies[:selected_entries] %> style="display:none;"<%end%>>
         <div class = "btn-group">

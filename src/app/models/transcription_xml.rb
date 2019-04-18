@@ -51,6 +51,8 @@ class TranscriptionXml < ApplicationRecord
     # Volume = the volume of any div in the document (Assuming it is always the same)
     volume = splitEntryID(doc.xpath('//xmlns:div[@xml:id]/@xml:id', 'xmlns' => HISTEI_NS)[0])[0]
 
+    # search_xml_order = []
+
     # Fix for empty pages
     page_breaks.each do |pb|
       begin
@@ -70,6 +72,7 @@ class TranscriptionXml < ApplicationRecord
           s.tr_paragraph = pr
           s.transcription_xml = self
           s.save
+          # search_xml_order << s
         end
       rescue Exception => e
         logger.error(e)
@@ -164,6 +167,7 @@ class TranscriptionXml < ApplicationRecord
       # Replace line-break tag with \n and normalize whitespace
       s.content = entry_text
       s.save
+      # search_xml_order << s
     end
 
     doc = Nokogiri::XML (File.open(xml.current_path))
@@ -247,21 +251,40 @@ class TranscriptionXml < ApplicationRecord
         # Replace line-break tag with \n and normalize whitespace
         s.content = "#{textContentSecondPart}\n#{s.content}"
         s.save
+        # search_xml_order.insert(search_xml_order.index(previousEntry), s)
 
         previousEntry.content = textContentFirstPart
         # Get paragraph record
-        prPreviusEntry = previousEntry.tr_paragraph
+        prPreviousEntry = previousEntry.tr_paragraph
         # Remove duplicated content from entry which contains the page break
-        prPreviusEntry.content_xml = xmlContentFirstPart
-        prPreviusEntry.content_html = htmlContentFirstPart.to_xml
-        prPreviusEntry.save
+        prPreviousEntry.content_xml = xmlContentFirstPart
+        prPreviousEntry.content_html = htmlContentFirstPart.to_xml
+        prPreviousEntry.save
         # Save the change
-        previousEntry.tr_paragraph = prPreviusEntry
+        previousEntry.tr_paragraph = prPreviousEntry
         previousEntry.save
       rescue Exception => e
         logger.error(e)
       end
     end
 
+    # Clean up unneeded empty pages
+    Search.where(entry: nil).each do |empty|
+      empty.delete unless Search.where(volume: empty.volume, page: empty.page, paragraph: empty.paragraph).count == 1
+    end
+
+    # xml_order_index = 0
+    # search_xml_order.each do |sxo|
+    #   begin
+    #     search = Search.find(sxo.id)
+    #     if search
+    #       search.xml_order = xml_order_index
+    #       search.save
+    #       xml_order_index += 1
+    #     end
+    #   rescue ActiveRecord::RecordNotFound
+    #     # Okay it's not there, ignore
+    #   end
+    # end
   end
 end

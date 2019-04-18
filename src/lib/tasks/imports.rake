@@ -2,7 +2,7 @@ begin
   namespace :import do
     desc 'Imports all xml files and images in the uploads directory'
     task :uploads, [:uploads_location] => [:environment] do |_t, args|
-      args.with_defaults(uploads_location: '/docker/lacr-search/public/uploads')
+      args.with_defaults(uploads_location: '/lacr-search/public/uploads')
 
       directory = args[:uploads_location]
 
@@ -12,7 +12,7 @@ begin
 
     desc 'Imports all xml files in the uploads directory'
     task :xml_uploads, [:uploads_location] => [:environment] do |_t, args|
-      args.with_defaults(uploads_location: '/docker/lacr-search/public/uploads')
+      args.with_defaults(uploads_location: '/lacr-search/public/uploads')
 
       directory = args[:uploads_location]
 
@@ -21,7 +21,7 @@ begin
 
     desc 'Imports all images in the uploads directory'
     task :image_uploads, [:uploads_location] => [:environment] do |_t, args|
-      args.with_defaults(uploads_location: '/docker/lacr-search/public/uploads')
+      args.with_defaults(uploads_location: '/lacr-search/public/uploads')
 
       directory = args[:uploads_location]
 
@@ -77,7 +77,7 @@ def import_xml_from(directory)
 end
 
 def import_images_from(directory)
-  image_dir = Dir.new(File.join(directory, 'images'))
+  image_dir = Dir.new(File.join(directory, 'image'))
   image_dir.entries.reject { |f| ['.', '..'].include?(f) }.each do |filename|
     # file_path = File.join(image_dir.path, filename)
     puts("Importing Image: #{filename}")

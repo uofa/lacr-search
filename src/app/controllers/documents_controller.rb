@@ -19,7 +19,7 @@ class DocumentsController < ApplicationController
   end
 
   def list
-    @documents = Search.select(:page, :volume).distinct.order(volume: :asc, page: :asc).group(:volume, :page)
+    @documents = Search.select(:page, :volume).distinct.order(volume: :asc).group(:volume, :page)
     respond_to do |format|
       format.html { redirect_to doc_path }
       format.json { render json: @documents }

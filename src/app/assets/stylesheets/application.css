@@ -243,8 +243,16 @@ a {
 }
 
 .list-group-item{
-  /* Concise the pages in Document Browse */
-  padding: 1px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.list-group-item > p{
+  font-weight: 600;
+}
+
+.tr-text{
+  font-family: "museo-slab-1","museo-slab-2",serif;
 }
 
 .navbar-fixed-top .navbar-collapse {

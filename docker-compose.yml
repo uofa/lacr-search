@@ -35,6 +35,7 @@ services:
     command: bundle exec rails s -p 80 -b '0.0.0.0'
     volumes:
       - ./src:/lacr-search
+      - /docker/lacr-search/src/public/uploads:/old-uploads
     environment:
       BASEX_ADMIN: ${BASEX_ADMIN}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}

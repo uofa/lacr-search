@@ -143,11 +143,12 @@ class SearchController < ApplicationController
 
   def get_order_by(permited)
     # Get the orderBy mode
-    # 0 -> Most relevant first
-    # 1 -> Volume/Page in ascending order
+    # 0 -> Most relevant / frequent first
+    # 1 -> Volume/Page in ascending order (Default)
     # 2 -> Volume/Page in descending order
     # 3 -> Chronological orther
     @orderBy = permited[:o].to_i
+    @orderBy = 1 unless permited[:o] # Set Default 1
     order_by = {}
     if @orderBy == 0
       order_by['_score'] = :desc # most relevant first - default

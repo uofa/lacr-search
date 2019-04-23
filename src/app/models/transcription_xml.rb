@@ -248,7 +248,7 @@ class TranscriptionXml < ApplicationRecord
         s.lang = previousEntry.lang
         s.date = previousEntry.date
         s.date_incorrect = previousEntry.date_incorrect
-        s.date_incorrect = previousEntry.date_certainty
+        s.date_certainty = previousEntry.date_certainty
         # Replace line-break tag with \n and normalize whitespace
         s.content = "#{textContentSecondPart}\n#{s.content}"
         s.save

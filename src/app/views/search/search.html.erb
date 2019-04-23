@@ -34,16 +34,13 @@
     <% begin highlighted = "&highlight="+Nokogiri::HTML.fragment(document.highlighted_content).css('mark').collect(&:text).uniq.join('+') rescue highlighted = "" end%>
 
     <a class="list-group-item" href="<%= doc_show_path%>?p=<%=document.page%>&v=<%=document.volume%><%=highlighted%>">
-     <h4>
-       Volume: <%= document.volume %>, Page <%= document.page %>
-       - Date: <%= document.date %>
-     </h4>
       <% if defined? document.highlighted_content %>
       <p class="highlighted_content"><%= document.highlighted_content.html_safe %></p>
       <%else%>
       <p><%= document.content %></p>
       <%end%>
-      <mdall>ID: <%= document.entry %></mdall>
+
+      <mdall>ID: <%= document.entry %>, Volume: <%= document.volume %>, Page <%= document.page %>, Date: <%= document.date %></mdall>
     </a>
     <% end %>
   </div>

@@ -34,7 +34,7 @@
     <a class="list-group-item" href="<%= doc_show_path%>?p=<%=document.page%>&v=<%=document.volume%><%=highlighted%>">
      <h4>
        Volume: <%= document.volume %>, Page <%= document.page %>
-       <sup>Date: <%= document.date %></sup>
+       - Date: <%= document.date %>
      </h4>
       <% if defined? document.highlighted_content %>
       <p class="highlighted_content"><%= document.highlighted_content.html_safe %></p>

@@ -98,6 +98,9 @@ class TranscriptionXml < ApplicationRecord
           date_str = d.to_s
       end
 
+      dc = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@cert", 'xmlns' => HISTEI_NS)
+      date_certainty = dc.to_s
+
       # Go to the closest parent "div" of the entry and find a child "date"
       # and extract the 'when' argument
       date_from = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@from", 'xmlns' => HISTEI_NS).to_s
@@ -161,6 +164,7 @@ class TranscriptionXml < ApplicationRecord
       s.lang = entry_lang
       s.date = entry_date
       s.date_incorrect = entry_date_incorrect
+      s.date_certainty = date_certainty
       # Replace line-break tag with \n and normalize whitespace
       s.content = entry_text
       s.save
@@ -244,6 +248,7 @@ class TranscriptionXml < ApplicationRecord
         s.lang = previousEntry.lang
         s.date = previousEntry.date
         s.date_incorrect = previousEntry.date_incorrect
+        s.date_incorrect = previousEntry.date_certainty
         # Replace line-break tag with \n and normalize whitespace
         s.content = "#{textContentSecondPart}\n#{s.content}"
         s.save

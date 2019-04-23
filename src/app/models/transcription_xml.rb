@@ -81,44 +81,14 @@ class TranscriptionXml < ApplicationRecord
     #-----------------------------------
 
     # Extract all "div" tags with atribute "xml:id"
-    entries = doc.xpath("//xmlns:div[@xml:id]", 'xmlns' => HISTEI_NS)
+    entries = doc.xpath('//xmlns:div[@xml:id]', 'xmlns' => HISTEI_NS)
     # Parse each entry as follows
     entries.each do |entry|
-
-      d = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@when", 'xmlns' => HISTEI_NS)
-      if d.count > 1
-          date_str = ''
-          for entry_date in d
-              entry_date_str = entry_date.to_s
-              if date_str.length < entry_date_str.length
-                  date_str = entry_date_str
-              end
-          end
-      else
-          date_str = d.to_s
-      end
-
-      # Go to the closest parent "div" of the entry and find a child "date"
-      # and extract the 'when' argument
-      date_from = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@from", 'xmlns' => HISTEI_NS).to_s
-      date_to = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@to", 'xmlns' => HISTEI_NS).to_s
-      if date_str.split('-').length == 3
-        entry_date_incorrect = nil
-        entry_date = date_str.to_date
-      elsif date_str.split('-').length == 2
-        entry_date_incorrect = date_str
-        entry_date = "#{date_str}-1".to_date # If the day is missing set ot 1-st
-      elsif date_str.split('-').length == 1
-        entry_date_incorrect = date_str
-        entry_date = "#{date_str}-1-1".to_date # If the day and month are missing set ot 1-st Jan.
-      else
-        entry_date_incorrect = date_from.length != 0 ? "#{date_from} : #{date_to}": 'N/A'
-        entry_date = nil # The date is missing
-      end
+      date_info = parse_date_from_entry(entry)
 
       # Convert the 'entry' and 'date' Nokogiri objects to Ruby Hashes
-      entry_id = entry.xpath("@xml:id").to_s
-      entry_lang = entry.xpath("@xml:lang").to_s
+      entry_id = entry.xpath('@xml:id').to_s
+      entry_lang = entry.xpath('@xml:lang').to_s
       case entry_lang # Fix language standad
       when 'sc'
         entry_lang = 'sco'
@@ -159,8 +129,9 @@ class TranscriptionXml < ApplicationRecord
       s.tr_paragraph = pr
       s.transcription_xml = self
       s.lang = entry_lang
-      s.date = entry_date
-      s.date_incorrect = entry_date_incorrect
+      s.date = date_info[:entry_date]
+      s.date_not_after = date_info[:entry_date_not_after]
+      s.date_incorrect = date_info[:entry_date_incorrect]
       # Replace line-break tag with \n and normalize whitespace
       s.content = entry_text
       s.save
@@ -179,7 +150,6 @@ class TranscriptionXml < ApplicationRecord
 
     entries_with_page_break.each do |entry|
       begin
-
         # Split the string of content by the page break
         xmlContentFirstPart, xmlContentSecondPart = entry.to_s.split(/<.*pb.*\/>/)
         xmlContentFirstPart = xmlContentFirstPart.gsub('xml:lang="sc"', 'xml:lang="sco"').gsub('xml:lang="la"', 'xml:lang="lat"').gsub('xml:lang="nl"', 'xml:lang="nld"')
@@ -214,9 +184,7 @@ class TranscriptionXml < ApplicationRecord
           pr.content_xml = xmlContentSecondPart
           pr.content_html = htmlContentSecondPart.to_xml+"<span class=\"xml-tag pb\"></span>"+ pr.content_html
           pr.save
-
         else
-
           # Create new search record
           s = Search.new
 
@@ -225,14 +193,13 @@ class TranscriptionXml < ApplicationRecord
           pr.content_xml = xmlContentSecondPart
           pr.content_html = htmlContentSecondPart.to_xml
           pr.save
-
         end
 
         textContentFirstPart =(Nokogiri::XML("<p>"+xmlContentFirstPart.gsub('<lb break="yes"/>', "\n")+"</p>")).xpath('normalize-space()')
         textContentSecondPart =(Nokogiri::XML("<p>"+xmlContentSecondPart.gsub('<lb break="yes"/>', "\n")+"</p>")).xpath('normalize-space()')
 
         # Find the original record
-        previousEntry = Search.find_by(volume: volume,page: page,paragraph: paragraph)
+        previousEntry = Search.find_by(volume: volume, page: page, paragraph: paragraph)
 
         # Create Search record
         s.tr_paragraph = pr
@@ -258,10 +225,59 @@ class TranscriptionXml < ApplicationRecord
         # Save the change
         previousEntry.tr_paragraph = prPreviusEntry
         previousEntry.save
-      rescue Exception => e
+      rescue StandardError => e
         logger.error(e)
       end
     end
+  end
 
+  def parse_date_from_entry(entry)
+    # Get date from when, failing that, from notBefore
+    d = entry.xpath('ancestor::xmlns:div[1]//xmlns:date/@when', 'xmlns' => HISTEI_NS)
+    d = entry.xpath('ancestor::xmlns:div[1]//xmlns:date/@notBefore', 'xmlns' => HISTEI_NS) if d.count.zero?
+
+    # if date is an array, crunch to 1 string
+    if d.count > 1
+      date_str = ''
+      d.each do |entry_date|
+        entry_date_str = entry_date.to_s
+        date_str = entry_date_str if date_str.length < entry_date_str.length
+      end
+    else
+      date_str = d.to_s
+    end
+
+    # Get notAfter, if one exists
+    d = entry.xpath('ancestor::xmlns:div[1]//xmlns:date/@notAfter', 'xmlns' => HISTEI_NS)
+    date_not_after_str = d.count == 1 ? d.to_s : nil
+
+    # Go to the closest parent "div" of the entry and find a child "date"
+    # and extract the 'when' argument
+    # date_from = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@from", 'xmlns' => HISTEI_NS).to_s
+    # date_to = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@to", 'xmlns' => HISTEI_NS).to_s
+
+    entry_date_incorrect = date_format_correct?(date_str) ? nil : date_str
+    entry_date = correct_date(date_str)
+    entry_date_not_after = date_not_after_str ? correct_date(date_not_after_str) : nil
+
+    {
+      entry_date: entry_date,
+      entry_date_not_after: entry_date_not_after,
+      entry_date_incorrect: entry_date_incorrect
+    }
+  end
+
+  def date_format_correct?(date_str)
+    date_str.split('-').length == 3
+  end
+
+  def correct_date(date_str)
+    if date_str.split('-').length == 3
+      date_str.to_date
+    elsif date_str.split('-').length == 2
+      "#{date_str}-1".to_date # If the day is missing set ot 1-st
+    elsif date_str.split('-').length == 1
+      "#{date_str}-1-1".to_date # If the day and month are missing set ot 1-st Jan.
+    end
   end
 end

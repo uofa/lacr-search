@@ -56,3 +56,44 @@
     width: 0.2em;
   }
 }
+
+.cert-low, .cert-medium, .cert-high{
+  cursor: pointer;
+
+  &:after{
+    content: "Certainty: High";
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border-radius: 50%;
+    color: transparent;
+    background-color: green;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 125px;
+  }
+
+  &:hover{
+    &:after{
+      width: auto;
+      color: white;
+      padding: 0 5px;
+      border-radius: 2px;
+    }
+  }
+}
+
+.cert-medium{
+  &:after{
+    content: "Certainty: Medium";
+    background-color: orange;
+  }
+}
+
+.cert-low{
+  &:after{
+    content: "Certainty: Low";
+    background-color: red;
+  }
+}

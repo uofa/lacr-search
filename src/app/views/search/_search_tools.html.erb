@@ -51,7 +51,7 @@
     </div>
     <div class="col-sm-9" style="padding:0;">
         <select class="form-control" name="o" onchange="insertParam('o', this.value, 'page')" style="padding:5px 0;">
-        <option value="0" <%if @orderBy == 0%>selected="selected"<%end%>>Relevance</option>
+        <option value="0" <%if @orderBy == 0%>selected="selected"<%end%>>Frequency</option>
         <option value="1" <%if @orderBy == 1%>selected="selected"<%end%>>Volume, Page ascending</option>
         <option value="2" <%if @orderBy == 2%>selected="selected"<%end%>>Volume, Page descending</option>
         <option value="3" <%if @orderBy == 3%>selected="selected"<%end%>>Chronological</option>

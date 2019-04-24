@@ -11,12 +11,12 @@
       </label>
     </div>
     <div class="col-xs-6 text-right">
-      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
+      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%></span>
       <button type="button" id="toggleChart-1" style="display:none;" class="btn btn-sm btn-primary" onclick="loadChart();">Toggle Timeline</button>
     </div>
     <%else%>
     <div class="col-xs-12 text-right">
-      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
+      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%></span>
       <button type="button" id="toggleChart-1" style="display:none;" class="btn btn-sm btn-primary" onclick="loadChart();">Toggle Timeline</button>
     </div>
     <%end%>

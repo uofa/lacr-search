@@ -191,14 +191,14 @@ class SearchController < ApplicationController
     date_range = {}
     if permited[:date_from] # Filter by lower date bound
       begin
-        date_range[:lte] = extract_date(permited[:date_from], fix: :from)
+        date_range[:gte] = extract_date(permited[:date_from], fix: :from)
       rescue StandardError => e
         flash[:notice] = "#{e.message}: Incorrect \"Date from\" format"
       end
     end
     if permited[:date_to] # Filter by upper date bound
       begin
-        date_range[:gte] = extract_date(permited[:date_to], fix: :to)
+        date_range[:lte] = extract_date(permited[:date_to], fix: :to)
       rescue StandardError => e
         flash[:notice] = "#{e.message}: Incorrect \"Date to\" format"
       end

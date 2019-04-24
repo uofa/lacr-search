@@ -8,7 +8,7 @@ module DocumentsHelper
     elsif document.date_not_after
       date_str += "between #{document.date} and #{document.date_not_after}"
     else
-      date_str += document.date
+      date_str += "#{document.date}"
     end
     date_str + '<span>'
   end

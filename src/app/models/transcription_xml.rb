@@ -115,7 +115,7 @@ class TranscriptionXml < ApplicationRecord
         entry_date_incorrect = date_str
         entry_date = "#{date_str}-1-1".to_date # If the day and month are missing set ot 1-st Jan.
       else
-        entry_date_incorrect = date_from.length != 0 ? "#{date_from} : #{date_to}": 'N/A'
+        entry_date_incorrect = date_from.length != 0 ? "#{date_from}-#{date_to}": 'N/A'
         entry_date = nil # The date is missing
       end
 

@@ -1,12 +1,12 @@
 $(document).ready(function() {
-  var dateFormat = 'yy-mm-dd';
-  var minDate = '1398-01-01';
-  var maxDate = '1511-12-31';
+  var dateFormat = 'dd/mm/yy';
+  var minDate = '01/01/1398';
+  var maxDate = '31/12/1511';
   // Initialise date fields for Advanced Search
   $( "#date_from" ).datepicker({
     showOtherMonths: true,
     selectOtherMonths: true,
-    dateFormat: 'yy-mm-dd',
+    dateFormat: dateFormat,
     minDate: $.datepicker.parseDate( dateFormat, minDate ),
     maxDate: $.datepicker.parseDate( dateFormat, maxDate ),
     defaultDate: $.datepicker.parseDate( dateFormat, minDate )

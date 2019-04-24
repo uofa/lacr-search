@@ -155,87 +155,56 @@ class TranscriptionXml < ApplicationRecord
     # -> Page breaks inside entries
     #-----------------------------------
 
-    # Get all entries with page break inside
-
+    # Get all entries with page break(s) inside
     entries_with_page_break.each do |entry|
       begin
-        # Split the string of content by the page break
-        xmlContentFirstPart, xmlContentSecondPart = entry.to_s.split(/<.*pb.*\/>/)
-        xmlContentFirstPart = xmlContentFirstPart.gsub('xml:lang="sc"', 'xml:lang="sco"').gsub('xml:lang="la"', 'xml:lang="lat"').gsub('xml:lang="nl"', 'xml:lang="nld"')
-        xmlContentSecondPart = xmlContentSecondPart.gsub('xml:lang="sc"', 'xml:lang="sco"').gsub('xml:lang="la"', 'xml:lang="lat"').gsub('xml:lang="nl"', 'xml:lang="nld"')
+        # Split the string of content by the page break(s)
+        xml_content_parts = parse_entry_with_page_breaks(entry.to_s)
 
-        htmlContentFirstPart = Nokogiri::XML("<p>#{xmlContentFirstPart}</p>")
-        htmlContentSecondPart = Nokogiri::XML("<p>#{xmlContentSecondPart}</p>")
+        xml_content_first_part = xml_content_parts.shift.gsub('xml:lang="sc"', 'xml:lang="sco"').gsub('xml:lang="la"', 'xml:lang="lat"').gsub('xml:lang="nl"', 'xml:lang="nld"')
+        html_content_first_part = Nokogiri::XML("<p>#{xml_content_first_part}</p>")
 
-        # Get the id of the problematic entry
-        oldEntryId = entry.xpath('@xml:id').to_s
+        # Get the problematic entry
+        old_entry_id = entry.xpath('@xml:id').to_s
+        volume, page, paragraph = splitEntryID(old_entry_id)
+        old_search = Search.find_by(entry: old_entry_id, page: page)
 
-        # Split the id into page, paragraph, volume
-        volume, page, paragraph = splitEntryID(oldEntryId)
-        newPage = entry.xpath('.//xmlns:pb').attribute('n').value
+        pr = old_search.tr_paragraph
+        # Store the updated content for the paragraph record
+        pr.content_xml = xml_content_first_part
+        pr.content_html = html_content_first_part.to_xml+"<span class=\"xml-tag pb\"></span>"+ pr.content_html
+        pr.save
 
-        #
-        # Insert the extracted content in the new paragraph
-        #
+        # Now iterate the other entries, creating records for them:
+        current_page = page
 
-        # if the new paragraph is not created
-        # This is false when:
-        # -> There is inconcistency the first paragraph of the page
-        #    has started in the previous entry
-        # -> The document is overwritten
-        #
-        if Search.exists?(entry: oldEntryId, paragraph: 1)
-          # Get existing paragraph
-          s = Search.find_by(entry: oldEntryId, paragraph: 1)
-          # Get paragraph record
-          pr = s.tr_paragraph
-          # Store the updated content for the paragraph record
-          pr.content_xml = xmlContentSecondPart
-          pr.content_html = htmlContentSecondPart.to_xml+"<span class=\"xml-tag pb\"></span>"+ pr.content_html
-          pr.save
-        else
-          # Create new search record
-          s = Search.new
+        xml_content_parts.each do |part|
+          # if part is a page number, set the current page number
+          if part =~ /<pb[^>]*\/>/
+            current_page = number_from_page_element(part)
+            next
+          end
 
-          # Create TrParagraph record
-          pr = TrParagraph.new
-          pr.content_xml = xmlContentSecondPart
-          pr.content_html = htmlContentSecondPart.to_xml
-          pr.save
+          # if part is a block, create a Search object for that block using
+          # the existing ID but the new page number.
+          xml_part = part.gsub('xml:lang="sc"', 'xml:lang="sco"').gsub('xml:lang="la"', 'xml:lang="lat"').gsub('xml:lang="nl"', 'xml:lang="nld"')
+          html_part = Nokogiri::XML("<p>#{xml_part}</p>")
+          pr = TrParagraph.create(content_xml: xml_part, content_html: html_part)
+          s = Search.create(
+            tr_paragraph: pr,
+            entry: old_entry_id,
+            volume: volume,
+            page: current_page,
+            paragraph: 1,
+            transcription_xml: old_search.transcription_xml,
+            lang: old_search.lang,
+            date: old_search.date,
+            date_incorrect: old_search.date_incorrect,
+            date_certainty: old_search.date_certainty,
+            date_not_after: old_search.date_not_after,
+            content: Nokogiri::XML("<p>#{part.gsub('<lb break="yes"/>', "\n")}</p>").xpath('normalize-space()'),
+          )
         end
-
-        textContentFirstPart =(Nokogiri::XML("<p>"+xmlContentFirstPart.gsub('<lb break="yes"/>', "\n")+"</p>")).xpath('normalize-space()')
-        textContentSecondPart =(Nokogiri::XML("<p>"+xmlContentSecondPart.gsub('<lb break="yes"/>', "\n")+"</p>")).xpath('normalize-space()')
-
-        # Find the original record
-        previousEntry = Search.find_by(entry: oldEntryId)
-
-        # Create Search record
-        s.tr_paragraph = pr
-        s.entry = previousEntry.entry
-        s.volume = volume
-        s.page = newPage
-        s.paragraph = 1
-        s.transcription_xml = self
-        s.lang = previousEntry.lang
-        s.date = previousEntry.date
-        s.date_incorrect = previousEntry.date_incorrect
-        s.date_certainty = previousEntry.date_certainty
-        # Replace line-break tag with \n and normalize whitespace
-        s.content = "#{textContentSecondPart}\n#{s.content}"
-        s.save
-        # search_xml_order.insert(search_xml_order.index(previousEntry), s)
-
-        previousEntry.content = textContentFirstPart
-        # Get paragraph record
-        prPreviousEntry = previousEntry.tr_paragraph
-        # Remove duplicated content from entry which contains the page break
-        prPreviousEntry.content_xml = xmlContentFirstPart
-        prPreviousEntry.content_html = htmlContentFirstPart.to_xml
-        prPreviousEntry.save
-        # Save the change
-        previousEntry.tr_paragraph = prPreviousEntry
-        previousEntry.save
       rescue StandardError => e
         logger.error(e)
       end
@@ -297,5 +266,22 @@ class TranscriptionXml < ApplicationRecord
     elsif date_str.split('-').length == 1
       "#{date_str}-1-1".to_date # If the day and month are missing set ot 1-st Jan.
     end
+  end
+
+  def parse_entry_with_page_breaks(entry_str)
+    parts = entry_str.match(/(.*)(<pb[^>]*\/>)(.*)/im)
+
+    # parts[1] # The start block
+    # parts[2] # the last page number
+    # parts[3] # the block after the last page number
+
+    return [entry_str] unless parts
+
+    parse_entry_with_page_breaks(parts[1]) + [parts[2], parts[3]]
+  end
+
+  def number_from_page_element(page_str)
+    regex = /n="(.*)"/
+    page_str.match(regex)[1].to_i
   end
 end

@@ -267,12 +267,14 @@ class TranscriptionXml < ApplicationRecord
     d = entry.xpath('ancestor::xmlns:div[1]//xmlns:date/@notAfter', 'xmlns' => HISTEI_NS)
     date_not_after_str = d.count == 1 ? d.to_s : nil
 
-    # Go to the closest parent "div" of the entry and find a child "date"
-    # and extract the 'when' argument
-    # date_from = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@from", 'xmlns' => HISTEI_NS).to_s
-    # date_to = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@to", 'xmlns' => HISTEI_NS).to_s
-
-    entry_date_incorrect = date_format_correct?(date_str) ? nil : date_str
+    entry_date_incorrect = if date_format_correct?(date_str)
+      date_from = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@from", 'xmlns' => HISTEI_NS).to_s
+      date_to = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@to", 'xmlns' => HISTEI_NS).to_s
+      entry_date_incorrect = date_from.length != 0 ? "#{date_from}-#{date_to}": 'N/A'
+      entry_date = nil # The date is missing
+    else
+      date_str
+    end
     entry_date = correct_date(date_str)
     entry_date_not_after = date_not_after_str ? correct_date(date_not_after_str) : nil
 

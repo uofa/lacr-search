@@ -11,11 +11,11 @@
       </label>
     </div>
     <div class="col-xs-6 text-right">
-      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
+      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%></span>
     </div>
     <%else%>
     <div class="col-xs-12 text-right">
-      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%> (<%= @documents.took / 1000.0 %> sec)</span>
+      <span><%= @documents.total_count %> <%if @documents.total_count == 1 %>result<% else %>results<%end%></span>
     </div>
     <%end%>
   </div>

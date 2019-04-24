@@ -86,6 +86,9 @@ class TranscriptionXml < ApplicationRecord
     entries.each do |entry|
       date_info = parse_date_from_entry(entry)
 
+      dc = entry.xpath("ancestor::xmlns:div[1]//xmlns:date/@cert", 'xmlns' => HISTEI_NS)
+      date_certainty = dc.to_s
+
       # Convert the 'entry' and 'date' Nokogiri objects to Ruby Hashes
       entry_id = entry.xpath('@xml:id').to_s
       entry_lang = entry.xpath('@xml:lang').to_s
@@ -132,6 +135,8 @@ class TranscriptionXml < ApplicationRecord
       s.date = date_info[:entry_date]
       s.date_not_after = date_info[:entry_date_not_after]
       s.date_incorrect = date_info[:entry_date_incorrect]
+      s.date_certainty = date_certainty
+
       # Replace line-break tag with \n and normalize whitespace
       s.content = entry_text
       s.save
@@ -211,6 +216,7 @@ class TranscriptionXml < ApplicationRecord
         s.lang = previousEntry.lang
         s.date = previousEntry.date
         s.date_incorrect = previousEntry.date_incorrect
+        s.date_certainty = previousEntry.date_certainty
         # Replace line-break tag with \n and normalize whitespace
         s.content = "#{textContentSecondPart}\n#{s.content}"
         s.save

@@ -1,14 +1,15 @@
+# Helper functions for displaying documents
 module DocumentsHelper
   def date_block(document)
     date_str = '<strong>Date: </strong>'
+    date_str += "<span class=\"cert-#{document.date_certainty}\">"
     if document.date_incorrect
-      date_str += "<span>#{document.date_incorrect}</span>"
+      date_str += document.date_incorrect
     elsif document.date_not_after
-      date_str += "<span>between #{document.date} and #{document.date_not_after}</span>"
+      date_str += "between #{document.date} and #{document.date_not_after}"
     else
-      date_str += "<span>#{document.date}</span>"
+      date_str += document.date
     end
-    date_str
+    date_str + '<span>'
   end
 end
-

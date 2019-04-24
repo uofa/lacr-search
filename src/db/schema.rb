@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_23_100655) do
-
+ActiveRecord::Schema.define(version: 2019_04_23_114857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +36,7 @@ ActiveRecord::Schema.define(version: 2019_04_23_100655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "date_certainty", default: "high"
+    t.date "date_not_after"
     t.index ["page"], name: "index_searches_on_page"
     t.index ["paragraph"], name: "index_searches_on_paragraph"
     t.index ["volume"], name: "index_searches_on_volume"

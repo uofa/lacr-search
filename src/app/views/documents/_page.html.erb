@@ -12,7 +12,7 @@
 
           <%if document.date or document.date_incorrect %>
 					<div class="col-sm-5">
-						<strong>Date: </strong><span class="cert-<%= document.date_certainty %>"><% if document.date_incorrect %><%= document.date_incorrect %><% else %><%= document.date %><% end %></span>
+            <%= date_block(document).html_safe %>
 					</div>
           <%end%>
 

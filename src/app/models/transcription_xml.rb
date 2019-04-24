@@ -162,7 +162,9 @@ class TranscriptionXml < ApplicationRecord
         xml_content_parts = parse_entry_with_page_breaks(entry.to_s)
 
         xml_content_first_part = xml_content_parts.shift.gsub('xml:lang="sc"', 'xml:lang="sco"').gsub('xml:lang="la"', 'xml:lang="lat"').gsub('xml:lang="nl"', 'xml:lang="nld"')
-        html_content_first_part = Nokogiri::XML("<p>#{xml_content_first_part}</p>")
+        entry_obj = Nokogiri::XML(xml_content_first_part)
+        xml_to_html(entry_obj)
+        html_content_first_part = entry_obj.to_xml
 
         # Get the problematic entry
         old_entry_id = entry.xpath('@xml:id').to_s
@@ -172,7 +174,7 @@ class TranscriptionXml < ApplicationRecord
         pr = old_search.tr_paragraph
         # Store the updated content for the paragraph record
         pr.content_xml = xml_content_first_part
-        pr.content_html = html_content_first_part.to_xml+"<span class=\"xml-tag pb\"></span>"+ pr.content_html
+        pr.content_html = html_content_first_part
         pr.save
 
         # Now iterate the other entries, creating records for them:
@@ -188,7 +190,9 @@ class TranscriptionXml < ApplicationRecord
           # if part is a block, create a Search object for that block using
           # the existing ID but the new page number.
           xml_part = part.gsub('xml:lang="sc"', 'xml:lang="sco"').gsub('xml:lang="la"', 'xml:lang="lat"').gsub('xml:lang="nl"', 'xml:lang="nld"')
-          html_part = Nokogiri::XML("<p>#{xml_part}</p>")
+          entry_obj = Nokogiri::XML('<div>' + xml_part)
+          xml_to_html(entry_obj)
+          html_part = entry_obj.to_xml
           pr = TrParagraph.create(content_xml: xml_part, content_html: html_part)
           s = Search.create(
             tr_paragraph: pr,

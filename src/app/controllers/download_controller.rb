@@ -10,8 +10,10 @@ class DownloadController < ApplicationController
         xml_paths = Set.new
         # For each selected page
         selected.each do |s|
-          entry = selected[s]
+
+          entry = selected[s[0]]
           # Continue if volume and page are spacified
+
           if entry.key?("volume") and entry.key?("page")
             vol, page = entry['volume'], entry['page']
 
@@ -106,7 +108,7 @@ class DownloadController < ApplicationController
         send_data TrParagraph.new().print_data(documents), filename:'Selected_entries.pdf', type: "application/pdf", disposition: :attachment
       else
         page_not_found
-      end 
+      end
     else
       page_not_found
     end

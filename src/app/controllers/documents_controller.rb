@@ -76,14 +76,16 @@ class DocumentsController < ApplicationController
       # Store the volume and page from the input
       @volume, @page = params[:v].to_i, params[:p].to_i
       # Select Documents
-      @documents = Search.order(:paragraph).where('volume' => @volume).rewhere('page' => @page)
+      @documents = Search.order(:entry).where('volume' => @volume).rewhere('page' => @page)
       if @documents.length > 0
         # Select image
-        page_image = PageImage.find_by_volume_and_page(@volume, @page)
-        if page_image # Has been uploaded
-          # Simple Fix of the file extension after image convert
-          @document_image_normal = page_image.image.normal.url.split('.')[0...-1].join + '.jpeg'
-          @document_image_large = page_image.image.large.url.split('.')[0...-1].join + '.jpeg'
+        page_image = PageImage.where(volume: @volume, page: @page)
+        @document_images = []
+        page_image.each do |img|
+          @document_images <<  {
+            normal: img.image.normal.url.split('.')[0...-1].join + '.jpeg',
+            large: img.image.large.url.split('.')[0...-1].join + '.jpeg'
+          }
         end
         respond_to do |format|
          format.html { render :partial => "documents/page" }

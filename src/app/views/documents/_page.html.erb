@@ -11,15 +11,15 @@
           <%end%>
 
           <%if document.date or document.date_incorrect %>
-					<div class="col-sm-4">
-						<strong>Date: </strong><span><% if document.date_incorrect %><%= document.date_incorrect %><% else %><%= document.date %><% end %></span>
+					<div class="col-sm-5">
+            <%= date_block(document).html_safe %>
 					</div>
           <%end%>
 
           <%if document.lang %>
-					<div class="col-sm-4">
+					<div class="col-sm-3">
 						<strong>Language: </strong><span class="pr-language"><%= document.lang %></span>
-					</div> <!-- col-md-4 -->
+					</div> <!-- col-md-3 -->
           <%end%>
 				</div> <!-- row -->
 			</div>  <!-- panel-heading -->

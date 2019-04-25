@@ -74,7 +74,7 @@ class TranscriptionXml < ApplicationRecord
           s.save
           # search_xml_order << s
         end
-      rescue Exception => e
+      rescue StandardError => e
         logger.error(e)
       end
     end
@@ -220,6 +220,23 @@ class TranscriptionXml < ApplicationRecord
     end
   end
 
+  def parse_entry_with_page_breaks(entry_str)
+    parts = entry_str.match(/(.*)(<pb[^>]*\/>)(.*)/im)
+
+    # parts[1] # The start block
+    # parts[2] # the last page number
+    # parts[3] # the block after the last page number
+
+    return [entry_str] unless parts
+
+    parse_entry_with_page_breaks(parts[1]) + [parts[2], parts[3]]
+  end
+
+  def number_from_page_element(page_str)
+    regex = /n="(.*)"/
+    page_str.match(regex)[1].to_i
+  end
+
   def parse_date_from_entry(entry)
     # Get date from when, failing that, from notBefore
     d = entry.xpath('ancestor::xmlns:div[1]//xmlns:date/@when', 'xmlns' => HISTEI_NS)
@@ -270,22 +287,5 @@ class TranscriptionXml < ApplicationRecord
     elsif date_str.split('-').length == 1
       "#{date_str}-1-1".to_date # If the day and month are missing set ot 1-st Jan.
     end
-  end
-
-  def parse_entry_with_page_breaks(entry_str)
-    parts = entry_str.match(/(.*)(<pb[^>]*\/>)(.*)/im)
-
-    # parts[1] # The start block
-    # parts[2] # the last page number
-    # parts[3] # the block after the last page number
-
-    return [entry_str] unless parts
-
-    parse_entry_with_page_breaks(parts[1]) + [parts[2], parts[3]]
-  end
-
-  def number_from_page_element(page_str)
-    regex = /n="(.*)"/
-    page_str.match(regex)[1].to_i
   end
 end

@@ -51,9 +51,23 @@
     background-color: rgba(128, 0, 255, 0.7);
 }
 
-.choice > .sic{
+.sic {
   color: gray;
   font-style: italic;
+  &:hover {
+    &:after {
+      content: '[sic]';
+    }
+  }
+}
+
+.choice > .sic{
+  &:hover {
+    &:after {
+      content: '';
+      padding-left: 0;
+    }
+  }
 }
 
 .choice > .corr{

@@ -50,6 +50,7 @@ $(document).ready(function() {
       anchors:['homepage', 'advsearch', 'about'],
       navigation: true,
       paddingTop: '60px',
+      scrollBar: true,
       onLeave: function(index, nextIndex, direction){
         // Hide datepicer after leaving Advanced Search section
         if(index == 2){

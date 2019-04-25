@@ -83,6 +83,7 @@ class DocumentsController < ApplicationController
         @document_images = []
         page_image.each do |img|
           @document_images <<  {
+            id: img.image.to_s.split('/').last.split('.').first,
             normal: img.image.normal.url.split('.')[0...-1].join + '.jpeg',
             large: img.image.large.url.split('.')[0...-1].join + '.jpeg'
           }

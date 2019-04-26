@@ -3,3 +3,14 @@
 .highlight, mark{
   background-color: #ffff4d;
 }
+
+.list-group.search-results {
+  .list-group-item {
+    padding: 5px;
+    margin: 15px 0;
+  }
+}
+
+#back-to-search-results {
+  margin-left: 15px;
+}

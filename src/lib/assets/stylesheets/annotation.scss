@@ -57,6 +57,8 @@
   &:hover {
     &:after {
       content: '[sic]';
+      vertical-align: sub;
+      font-size: small;
     }
   }
 }

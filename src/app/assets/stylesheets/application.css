@@ -122,6 +122,11 @@ a {
   #search-method .radio-inline {
     display: inline-block;
   }
+
+  #search-method ul {
+    padding-left: 0;
+  }
+
  @media (max-width: 767px) {
 
    /*Align search methods on multiple lines*/

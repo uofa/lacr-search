@@ -25,7 +25,7 @@
        <div id="chart-1" style="visibility: hidden; height: 0"></div>
     </div>
   </div>
-  <div class="list-group">
+  <div class="list-group search-results">
     <% @documents.each do |document| %>
     <% begin highlighted = "&highlight="+Nokogiri::HTML.fragment(document.highlighted_content).css('mark').collect(&:text).uniq.join('+') rescue highlighted = "" end%>
 
@@ -70,7 +70,7 @@
 <div class="row">
   <div class="col-sm-offset-1 col-sm-2">
       <div class="col-xs-12">
-        <button type="button" onclick="$.fn.fullpage.moveTo('results', 0);" class="btn btn-primary">
+        <button type="button" onclick="$.fn.fullpage.moveTo('results', 0);" id="back-to-search-results" class="btn btn-primary">
           <%= fa_icon "arrow-circle-left", text: "Back to search results" %>
         </button>
     </div>

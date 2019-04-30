@@ -41,18 +41,6 @@
       <li> <%= link_to "XQuery", query_path %> </li>
       <li><%= link_to "Advanced Search", root_path+"#advsearch" %> </li>
       <li> <%= link_to "About", root_path+"#about" %> </li>
-      <!-- menu for user authenticacion -->
-      <li>
-        <div class = "btn-group">
-          <button type = "button" class = "btn btn-link dropdown-toggle" data-toggle = "dropdown">
-            <%= fa_icon "user 2x" %>
-          </button>
-          <ul class = "dropdown-menu" role = "menu">
-            <%= render 'layouts/menu/registration_items' %>
-            <%= render 'layouts/menu/login_items' %>
-          </ul>
-        </div>
-      </li>
     </ul>
   </div><!-- /.navbar-collapse -->
 

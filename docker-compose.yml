@@ -41,6 +41,8 @@ services:
     environment:
       BASEX_ADMIN: ${BASEX_ADMIN}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      BASEX_READONLY: ${BASEX_READONLY}
+      BASEX_CREATEONLY: ${BASEX_READONLY}
 
     ports:
       - "80:80"

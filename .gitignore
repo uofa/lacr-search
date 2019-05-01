@@ -4,5 +4,6 @@ src/public/uploads
 src/public/uploads/*
 src/log
 src/log/*
+postgres-data/*
 .env
 

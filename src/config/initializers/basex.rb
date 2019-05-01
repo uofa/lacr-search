@@ -8,9 +8,9 @@ require "#{Rails.root}/lib/BaseXClient"
 ENV['BASEX_URL'] = 'xmldb'
 
 # Generate radnom passowords
-password_length = 64
-ENV['BASEX_READONLY'] = rand(36**password_length).to_s(36)
-ENV['BASEX_CREATEONLY'] = rand(36**password_length).to_s(36)
+# password_length = 64
+# ENV['BASEX_READONLY'] = rand(36**password_length).to_s(36)
+# ENV['BASEX_CREATEONLY'] = rand(36**password_length).to_s(36)
 
 # Change default admin password
 begin

@@ -41,6 +41,9 @@
       <li> <%= link_to "XQuery", query_path %> </li>
       <li><%= link_to "Advanced Search", root_path+"#advsearch" %> </li>
       <li> <%= link_to "About", root_path+"#about" %> </li>
+      <% if user_signed_in? %>
+      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+      <% end %>
     </ul>
   </div><!-- /.navbar-collapse -->
 

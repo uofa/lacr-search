@@ -41,7 +41,7 @@
 		<% if params[:highlight] %>
 		setTimeout(function () {
 			// Heighlight search words
-			highlighted_options = { wordsOnly: true, caseSensitive: true };
+			highlighted_options = { wordsOnly: true, caseSensitive: false };
 			$('.transcription').highlight(<%= params[:highlight].split().to_s.html_safe %>, highlighted_options);
 		}, 1000);
 		<% end %>

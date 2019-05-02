@@ -243,8 +243,8 @@ a {
 }
 
 .list-group-item{
-  /* Concise the pages in Document Browse */
-  padding: 1px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .navbar-fixed-top .navbar-collapse {

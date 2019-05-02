@@ -48,6 +48,7 @@ class SearchController < ApplicationController
 
     # Use strong params
     permited = simple_search_params
+    @page = permited[:page]
 
     # Parse Spelling variants and Results per page
     get_search_tools_params(permited)
@@ -57,7 +58,7 @@ class SearchController < ApplicationController
       @searchMethod = 5  # Regexp
 
         @documents = Search.search '*',
-            page: permited[:page], per_page: @results_per_page, # Pagination
+            page: @page, per_page: @results_per_page, # Pagination
             where: {content:{"regexp":".*" + @query + ".*"}}.merge(get_adv_search_params(permited)),
             match: get_serch_method(permited), # Parse search method parameter
             order: get_order_by(permited), # Parse order_by parameter
@@ -66,7 +67,7 @@ class SearchController < ApplicationController
     else
       @documents = Search.search @query,
           misspellings: {edit_distance: @misspellings,transpositions: false},
-          page: permited[:page], per_page: @results_per_page, # Pagination
+          page: @page, per_page: @results_per_page, # Pagination
           where: get_adv_search_params(permited), # Parse adv search parameters
           match: get_serch_method(permited), # Parse search method parameter
           order: get_order_by(permited), # Parse order_by parameter
@@ -143,11 +144,12 @@ class SearchController < ApplicationController
 
   def get_order_by(permited)
     # Get the orderBy mode
-    # 0 -> Most relevant first
-    # 1 -> Volume/Page in ascending order
+    # 0 -> Most relevant / frequent first
+    # 1 -> Volume/Page in ascending order (Default)
     # 2 -> Volume/Page in descending order
     # 3 -> Chronological orther
     @orderBy = permited[:o].to_i
+    @orderBy = 1 unless permited[:o] # Set Default 1
     order_by = {}
     if @orderBy == 0
       order_by['_score'] = :desc # most relevant first - default

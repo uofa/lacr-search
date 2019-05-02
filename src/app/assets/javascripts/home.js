@@ -62,15 +62,6 @@ $(document).ready(function() {
        }
     });
 
-    // Initialise spelling variants slider
-    $('#slider-spellVar').slider({ range: "max",
-      min: 0, max: 4, value: 1,
-      slide: function( event, ui ) {
-        $( "#spellVar" ).val( ui.value );
-      }
-    });
-    $( "#spellVar" ).val( $( "#slider-spellVar" ).slider( "value" ) );
-
     // Toggle spelling variants on Regular expressions selected
    $('input[name="sm"]').on('click', toggleMisspellings);
    toggleMisspellings();
@@ -79,7 +70,6 @@ $(document).ready(function() {
 
 var toggleMisspellings = function () {
   $disabled = $('input:checked[name="sm"]').val() == 5;
-  $("#slider-spellVar").slider( "option", "disabled", $disabled);
   $('#spellVar').prop('disabled', $disabled);
 };
 
@@ -99,6 +89,18 @@ $('.fp-controlArrow-down').click(function(){
     $.fn.fullpage.moveSectionDown();
 });
 
+$('input[name=vc]').on('change', function() {
+  toggle_volume_list();
+});
+
+toggle_volume_list = function() {
+  if ($("input[name=vc]:checked").val() == 0) {
+    $('.volume-chooser .list').css('display', 'none');
+    $("input.vol").prop('checked', true);
+  } else {
+    $('.volume-chooser .list').css('display', 'block');
+  }
+}
 
 function submitForm(){
   var name=$('.vol');

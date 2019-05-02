@@ -2,7 +2,7 @@
 * They will automatically be included in application.css.
 * You can use Sass (SCSS) here: http://sass-lang.com/
 
-*= require annotation.css
+*= require annotation.scss
 */
 
  // Styles for image zoom jquery plugin
@@ -47,4 +47,52 @@
 // Change the cursor for list items
 .list-group-item{
   cursor: pointer;
+}
+
+.cert-low, .cert-medium, .cert-high{
+  cursor: pointer;
+
+  &:after{
+    content: "Certainty: High";
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border-radius: 50%;
+    color: transparent;
+    background-color: green;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+  }
+
+  &:hover{
+    &:after{
+      width: auto;
+      color: white;
+      padding: 0 5px;
+      border-radius: 2px;
+    }
+  }
+}
+
+.cert-medium{
+  &:after{
+    content: "Certainty: Medium";
+    background-color: orange;
+  }
+}
+
+.cert-low{
+  &:after{
+    content: "Certainty: Low";
+    background-color: red;
+  }
+}
+
+.tr-text{
+  font-family: "museo-slab-1","museo-slab-2",serif;
+  lb{
+    display: inline-block;
+    width: 0.2em;
+  }
 }

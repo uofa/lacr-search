@@ -51,9 +51,25 @@
     background-color: rgba(128, 0, 255, 0.7);
 }
 
-.choice > .sic{
+.sic {
   color: gray;
   font-style: italic;
+  &:hover {
+    &:after {
+      content: '[sic]';
+      vertical-align: sub;
+      font-size: small;
+    }
+  }
+}
+
+.choice > .sic{
+  &:hover {
+    &:after {
+      content: '';
+      padding-left: 0;
+    }
+  }
 }
 
 .choice > .corr{
@@ -272,10 +288,27 @@
     text-decoration: line-through;
 }
 
+.space {
+  &:before {
+    color:orange;
+    content: "[...]";
+    font-style: italic;
+    padding-right: 0;
+  }
+  &:hover:before {
+    font-size: small;
+    font-style: normal;
+    color: black;
+    vertical-align: sub;
+    content: 'space';
+  }
+}
+
 .gap::before {
     color:orange;
     content: "[...]";
     font-style: italic;
+    padding-right: 0;
 }
 
 .unclear {

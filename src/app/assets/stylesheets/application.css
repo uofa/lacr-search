@@ -219,6 +219,7 @@ a {
 }
 .navbar-brand{
   text-align: center;
+  padding-right: 0;
 }
 
 #noty_topRight_layout_container{
@@ -242,12 +243,8 @@ a {
 }
 
 .list-group-item{
-  /* Concise the pages in Document Browse */
-  padding: 1px;
-}
-
-.tr-text{
-  font-family: "museo-slab-1","museo-slab-2",serif;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .navbar-fixed-top .navbar-collapse {

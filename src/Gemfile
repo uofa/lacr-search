@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
 gem 'rspec'
 gem 'lograge'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails'
+gem 'rails', '>= 5.2.2.1'
 # Use PostgreSQL as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
@@ -27,7 +27,7 @@ gem 'jquery-ui-rails' # Add JavaScript for UI
 # Ruby Gem of the Bootstrap
 gem 'less-rails' # Javascript runtime
 gem 'twitter-bootstrap-rails'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 
 gem 'carrierwave' # File upload
 gem 'groupdate' # Simple way to group by: day, week, etc.
@@ -37,29 +37,37 @@ gem 'prawn' # PDF file generator
 gem 'will_paginate-bootstrap' # Pagination library
 
 # API for Elasticsearch
-gem 'searchkick'
+gem 'searchkick', '~> 3.1.2'
 gem 'oj' # Significantly increase performance with faster JSON generation.
 gem 'typhoeus' # Significantly increase performance with persistent HTTP connections
 
-#User Authentication
-gem 'devise'
+# User Authentication
+gem 'devise', '>= 4.6.0'
 gem 'devise-bootstrap-views'
 
+group :development, :test do
+  # gem security audit
+  gem 'bundler-audit'
+end
+
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
+  gem 'byebug'
   gem 'listen', '~> 3.0.5'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # Spring speeds up development by keeping your application running in the
+  # background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'byebug'
+  # Access an IRB console on exception pages or by using <%= console %>
+  # anywhere in the code.
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
-	gem 'cucumber-rails', :require => false
-	# database_cleaner is not required, but highly recommended
-	gem 'database_cleaner'
-  # for testing JavaScript, require older version selenium and firefox version 47.0.1 for more info check:
+  gem 'cucumber-rails', require: false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
+  # for testing JavaScript, require older version selenium and
+  # firefox version 47.0.1 for more info check:
   # https://github.com/teamcapybara/capybara#drivers
   gem 'selenium-webdriver', '~> 2.53.4'
 end

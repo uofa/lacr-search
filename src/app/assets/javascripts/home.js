@@ -12,6 +12,10 @@ $(document).ready(function() {
     defaultDate: $.datepicker.parseDate( dateFormat, minDate )
   }).on( "change", function() {
     $( "#date_to" ).datepicker( "option", "minDate", getDate( this ) );
+    if ($("#date_to").val() == ""){
+      $("#date_to").val($("#date_from").val());
+  }
+    // if date_to not set, set to same value.
   });
 
   $( "#date_to" ).datepicker({

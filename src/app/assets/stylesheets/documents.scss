@@ -30,9 +30,22 @@
 .doc-tools {
   display: none;
 }
+
 #doc-browse {
   display: none;
+  #volume {
+    .btn {
+      background-color: #88b5dd;
+      &.active {
+        background-color: #3071a9;
+      }
+      &:hover {
+        background-color: #3071a9;
+      }
+    }
+  }
 }
+
 #doc_view {
   display: none;
 }

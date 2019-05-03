@@ -1,5 +1,5 @@
 <!-- Left Side: Text contet -->
-<div class="<% if @document_image_normal %>col-md-6<%else%>col-md-10<%end%>" id="doc-transcriptions">
+<div class="<% if @document_images.any? %>col-md-6<%else%>col-md-10<%end%>" id="doc-transcriptions">
 
   <% @documents.each do |document| %>
 		<div class="panel panel-primary" id="<%= document.entry %>">
@@ -40,11 +40,29 @@
 <!-- End of the left side -->
 
 <!-- Right Side: Image -->
-<% if @document_image_normal %>
+<% if @document_images.any? %>
 	<div class="col-md-6">
-		<span class='zoom' id="doc-image" data-spy="affix" data-offset-top="205">
-			<%= image_tag(@document_image_normal, class:"img-rounded img-responsive", data:	{large_image: @document_image_large}) %>
-		</span>
+    <% if @document_images.count > 1 %>
+    <div class="row">
+      <div class="col-md-3">
+        <span>Multiple images available:</span>
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" id="image-chooser" name="image-chooser" style="display: none">
+          <% @document_images.each do |img| %>
+          <option value="<%= img[:id] %>"><%= img[:id] %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+    <% end %>
+    <div class="row">
+  		<span class='zoom' id="doc-image" data-spy="affix" data-offset-top="205">
+        <% @document_images.each do |img| %>
+  			<%= image_tag(img[:normal], class:"img-rounded img-responsive", id: img[:id], data:	{large_image: img[:large]}) %>
+        <% end %>
+  		</span>
+    </div>
 	</div> <!-- col-md-6 -->
 <% end %>
 <!-- End of the right side -->

@@ -92,6 +92,14 @@
   }
 }
 
+.col-md-6 {
+  .cert-low, .cert-medium, .cert-high{
+    &.between{
+      top: 0px;
+    }
+  }
+}
+
 .cert-medium{
   background-color: orange;
   &:hover{

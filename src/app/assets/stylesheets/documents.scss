@@ -72,40 +72,40 @@
 
 .cert-low, .cert-medium, .cert-high{
   cursor: pointer;
-
-  &:after{
-    content: "Certainty: High";
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-    border-radius: 50%;
-    color: transparent;
-    background-color: green;
-    display: inline-block;
-    position: absolute;
-    top: 0;
-  }
+  padding: 5px;
+  border-radius: 5px;
+  background-color: green;
+  position: relative;
+  top: -5px;
+  vertical-align: top;
+  display: inline-block;
 
   &:hover{
     &:after{
+      content: "(Certainty: High)";
       width: auto;
+      height: auto;
       color: white;
-      padding: 0 5px;
-      border-radius: 2px;
+      display: block;
+      border-radius: 5px;
     }
   }
 }
 
 .cert-medium{
-  &:after{
-    content: "Certainty: Medium";
-    background-color: orange;
+  background-color: orange;
+  &:hover{
+    &:after{
+      content: "(Certainty: Medium)";
+    }
   }
 }
 
 .cert-low{
-  &:after{
-    content: "Certainty: Low";
-    background-color: red;
+  background-color: red;
+  &:hover{
+    &:after{
+      content: "(Certainty: Low)";
+    }
   }
 }

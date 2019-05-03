@@ -48,6 +48,7 @@ class SearchController < ApplicationController
 
     # Use strong params
     permited = simple_search_params
+    @page = permited[:page]
 
     # Parse Spelling variants and Results per page
     get_search_tools_params(permited)
@@ -57,7 +58,7 @@ class SearchController < ApplicationController
       @searchMethod = 5  # Regexp
 
         @documents = Search.search '*',
-            page: permited[:page], per_page: @results_per_page, # Pagination
+            page: @page, per_page: @results_per_page, # Pagination
             where: {content:{"regexp":".*" + @query + ".*"}}.merge(get_adv_search_params(permited)),
             match: get_serch_method(permited), # Parse search method parameter
             order: get_order_by(permited), # Parse order_by parameter
@@ -66,7 +67,7 @@ class SearchController < ApplicationController
     else
       @documents = Search.search @query,
           misspellings: {edit_distance: @misspellings,transpositions: false},
-          page: permited[:page], per_page: @results_per_page, # Pagination
+          page: @page, per_page: @results_per_page, # Pagination
           where: get_adv_search_params(permited), # Parse adv search parameters
           match: get_serch_method(permited), # Parse search method parameter
           order: get_order_by(permited), # Parse order_by parameter
@@ -192,30 +193,16 @@ class SearchController < ApplicationController
     date_range = {}
     if permited[:date_from] # Filter by lower date bound
       begin
-        date_str = permited[:date_from] # Get date
-        # Fix incorrect date format
-        case date_str.split('-').length
-        when 3 then date_range[:gte] =  date_str.to_date
-        when 2 then date_range[:gte] = "#{date_str}-1".to_date
-        when 1 then date_range[:gte] = "#{date_str}-1-1".to_date
-        else flash[:notice] = "Incorrect \"Date from\" format"
-        end
-      rescue
-        flash[:notice] = "Incorrect \"Date from\" format"
+        date_range[:gte] = extract_date(permited[:date_from], fix: :from)
+      rescue StandardError => e
+        flash[:notice] = "#{e.message}: Incorrect \"Date from\" format"
       end
     end
     if permited[:date_to] # Filter by upper date bound
       begin
-        date_str = permited[:date_to] # Get date
-        # Fix incorrect date format
-        case date_str.split('-').length
-        when 3 then date_range[:lte] = date_str.to_date
-        when 2 then date_range[:lte] = "#{date_str}-28".to_date
-        when 1 then date_range[:lte] = "#{date_str}-12-31".to_date
-        else  flash[:notice] = "Incorrect \"Date to\" format"
-        end
-      rescue
-        flash[:notice] = "Incorrect \"Date to\" format"
+        date_range[:lte] = extract_date(permited[:date_to], fix: :to)
+      rescue StandardError => e
+        flash[:notice] = "#{e.message}: Incorrect \"Date to\" format"
       end
     end
     # Append to where_query
@@ -235,4 +222,24 @@ class SearchController < ApplicationController
     end
     return where_query
   end
+
+  def extract_date(date, fix: :from)
+    fixes = {
+      from: ['1/', '1/1/'],
+      to: ['28/', '31/12/']
+    }
+
+    case date.split('/').length
+    when 3
+      date.to_date
+    when 2
+      "#{fixes[fix][0]}#{date}".to_date
+    when 1
+      "#{fixes[fix][1]}#{date}".to_date
+    else
+      raise 'Illegal Date Range'
+    end
+  end
 end
+
+

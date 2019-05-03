@@ -122,6 +122,11 @@ a {
   #search-method .radio-inline {
     display: inline-block;
   }
+
+  #search-method ul {
+    padding-left: 0;
+  }
+
  @media (max-width: 767px) {
 
    /*Align search methods on multiple lines*/
@@ -178,7 +183,8 @@ a {
    z-index: 1000;
    float: left;
    min-width: 140px;
-   max-width: 140px;
+   max-width: 280px;
+   width: 280px;
    max-height: 500px;
    overflow-y: auto;
    padding:0;
@@ -193,6 +199,27 @@ a {
    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
  }
 
+ @media only screen and (min-width: 1241px) {
+   .sidebar-nav .nav {
+     width: 210px;
+   }
+ }
+
+ @media only screen and (min-width: 1661px) {
+   .sidebar-nav .nav {
+     width: 280px;
+   }
+}
+
+ .sidebar-nav .nav .btn-primary{
+   padding: 12px;
+ }
+
+ .nav > div > div > a {
+   padding: 6px 12px;
+   font-size: 13px;
+   color: #444444;
+ }
 
 /*Small box for Upload files*/
  .center-box-sm{
@@ -243,12 +270,17 @@ a {
 }
 
 .list-group-item{
+<<<<<<< HEAD
+  padding: 10px;
+  margin-bottom: 10px;
+=======
   /* Concise the pages in Document Browse */
-  padding: 1px;
+  padding: 3px 10px;
 }
 
 .tr-text{
   font-family: "museo-slab-1","museo-slab-2",serif;
+>>>>>>> 20c6134d28c9f544748aead590c40720fb4a46b0
 }
 
 .navbar-fixed-top .navbar-collapse {

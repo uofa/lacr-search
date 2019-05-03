@@ -30,9 +30,22 @@
 .doc-tools {
   display: none;
 }
+
 #doc-browse {
   display: none;
+  #volume {
+    .btn {
+      background-color: #88b5dd;
+      &.active {
+        background-color: #3071a9;
+      }
+      &:hover {
+        background-color: #3071a9;
+      }
+    }
+  }
 }
+
 #doc_view {
   display: none;
 }
@@ -86,5 +99,13 @@
   &:after{
     content: "Certainty: Low";
     background-color: red;
+  }
+}
+
+.tr-text{
+  font-family: "museo-slab-1","museo-slab-2",serif;
+  lb{
+    display: inline-block;
+    width: 0.2em;
   }
 }

@@ -17,6 +17,20 @@ var load_document = function (p, v){
             } catch (e) {}
           });
 
+          $('#image-chooser').css('display', 'block');
+
+          $('#doc-image img:not(:first-child)').css('display','none');
+
+          $('#image-chooser').change(function() {
+            chosenId = $('#image-chooser').val();
+            $('#doc-image img').css('display','none');
+            $('#doc-image img#' + chosenId).css('display','initial');
+            $('#doc-image').trigger('zoom.destroy');
+            $('#doc-image').zoom({
+              url: $('#doc-image img#' + chosenId).data('largeImage')
+            });
+          });
+
           // Image zoom on hover
           $('#doc-image').zoom({
             url: $('#doc-image img').data('largeImage')

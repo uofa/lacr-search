@@ -193,30 +193,16 @@ class SearchController < ApplicationController
     date_range = {}
     if permited[:date_from] # Filter by lower date bound
       begin
-        date_str = permited[:date_from] # Get date
-        # Fix incorrect date format
-        case date_str.split('-').length
-        when 3 then date_range[:gte] =  date_str.to_date
-        when 2 then date_range[:gte] = "#{date_str}-1".to_date
-        when 1 then date_range[:gte] = "#{date_str}-1-1".to_date
-        else flash[:notice] = "Incorrect \"Date from\" format"
-        end
-      rescue
-        flash[:notice] = "Incorrect \"Date from\" format"
+        date_range[:gte] = extract_date(permited[:date_from], fix: :from)
+      rescue StandardError => e
+        flash[:notice] = "#{e.message}: Incorrect \"Date from\" format"
       end
     end
     if permited[:date_to] # Filter by upper date bound
       begin
-        date_str = permited[:date_to] # Get date
-        # Fix incorrect date format
-        case date_str.split('-').length
-        when 3 then date_range[:lte] = date_str.to_date
-        when 2 then date_range[:lte] = "#{date_str}-28".to_date
-        when 1 then date_range[:lte] = "#{date_str}-12-31".to_date
-        else  flash[:notice] = "Incorrect \"Date to\" format"
-        end
-      rescue
-        flash[:notice] = "Incorrect \"Date to\" format"
+        date_range[:lte] = extract_date(permited[:date_to], fix: :to)
+      rescue StandardError => e
+        flash[:notice] = "#{e.message}: Incorrect \"Date to\" format"
       end
     end
     # Append to where_query
@@ -236,4 +222,24 @@ class SearchController < ApplicationController
     end
     return where_query
   end
+
+  def extract_date(date, fix: :from)
+    fixes = {
+      from: ['1/', '1/1/'],
+      to: ['28/', '31/12/']
+    }
+
+    case date.split('/').length
+    when 3
+      date.to_date
+    when 2
+      "#{fixes[fix][0]}#{date}".to_date
+    when 1
+      "#{fixes[fix][1]}#{date}".to_date
+    else
+      raise 'Illegal Date Range'
+    end
+  end
 end
+
+

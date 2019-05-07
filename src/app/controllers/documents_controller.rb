@@ -16,6 +16,7 @@ class DocumentsController < ApplicationController
       cookies.delete :selected_entries
       redirect_to doc_path, :alert => "No selected paragraphs!"
     end
+    @document_images = []
   end
 
   def list

@@ -10,6 +10,6 @@ module DocumentsHelper
     else
       date_str += "#{document.date}"
     end
-    date_str + '<span>'
+    date_str + '</span>'
   end
 end

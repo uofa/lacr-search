@@ -270,17 +270,8 @@ a {
 }
 
 .list-group-item{
-<<<<<<< HEAD
   padding: 10px;
   margin-bottom: 10px;
-=======
-  /* Concise the pages in Document Browse */
-  padding: 3px 10px;
-}
-
-.tr-text{
-  font-family: "museo-slab-1","museo-slab-2",serif;
->>>>>>> 20c6134d28c9f544748aead590c40720fb4a46b0
 }
 
 .navbar-fixed-top .navbar-collapse {

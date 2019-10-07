@@ -24,9 +24,9 @@ Rails.application.configure do
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   # config.assets.compile = false
-  
+
   config.assets.compile = true
-  config.assets.precompile =  ['*.js', '*.css', '*.css.erb'] 
+  config.assets.precompile =  ['*.js', '*.css', '*.css.erb']
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -95,18 +95,14 @@ Rails.application.configure do
   end
 
   # mailer config
-  config.action_mailer.default_url_options = { host: 'lacr-demo.abdn.ac.uk'}
+  config.action_mailer.default_url_options = { host: 'sar.abdn.ac.uk' }
   # Disable delivery errors, bad email addresses will be ignored
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default charset: 'utf-8'
   config.action_mailer.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :address => "smtp.gmail.com",
-    :port => 587,
-    :domain => "gmail.com",
-    :authentication => :login,
-    :user_name => "lacrdemo@gmail.com",
-    :password => "lacrapp987"
+    address: 'mailhost.abdn.ac.uk',
+    port: 25
   }
 end

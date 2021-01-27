@@ -6,4 +6,5 @@ src/log
 src/log/*
 postgres-data/*
 .env
+.ruby-version
 

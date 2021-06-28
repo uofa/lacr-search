@@ -1,11 +1,11 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
-    <span class="hidden-sm hidden-md hidden-lg">
-      <%= link_to "LACR Search", root_path+"#homepage", class: "navbar-brand" %>
+    <span class="hidden-lg">
+      <%= link_to "Search Aberdeen Registers", root_path+"#homepage", class: "navbar-brand" %>
     </span>
-    <span class="hidden-xs">
-      <%= link_to "Aberdeen Council Registers", root_path+"#homepage", class: "navbar-brand" %>
+    <span class="hidden-xs hidden-sm hidden-md">
+      <%= link_to "Search Aberdeen Registers", root_path+"#homepage", class: "navbar-brand" %>
     </span>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-menu">
       <span class="sr-only">Toggle navigation</span>
@@ -23,11 +23,13 @@
 
   <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-menu">
     <ul class="nav navbar-nav">
-      <li id="documents-btn" <%if cookies[:selected_entries] %> style="display:none;"<%end%>><%= link_to "Documents", doc_path %></li>
+      <li id='aberdeen-registers-online' class="hidden-sm"><%= link_to 'Aberdeen Registers Online', 'https://www.abdn.ac.uk/aro' %></li>
+      <li id='aberdeen-registers-online' class="hidden-xs hidden-md hidden-lg"><%= link_to 'ARO', 'https://www.abdn.ac.uk/aro' %></li>
+      <li id="documents-btn" <%if cookies[:selected_entries] %> style="display:none;"<%end%>><%= link_to "Browse", doc_path %></li>
       <li id="documents-selected-btn" <%if !cookies[:selected_entries] %> style="display:none;"<%end%>>
         <div class = "btn-group">
           <button type = "button" class = "btn btn-link dropdown-toggle" data-toggle = "dropdown">
-            Documents <span id="doc_caret" data-toggle="tooltip" data-placement="bottom" title="View selected documents" class="caret"></span>
+            Browse <span id="doc_caret" data-toggle="tooltip" data-placement="bottom" title="View selected documents" class="caret"></span>
             <span class = "sr-only">Toggle Dropdown</span>
           </button>
           <ul class = "dropdown-menu" role = "menu">
@@ -39,18 +41,10 @@
       <li> <%= link_to "XQuery", query_path %> </li>
       <li><%= link_to "Advanced Search", root_path+"#advsearch" %> </li>
       <li> <%= link_to "About", root_path+"#about" %> </li>
-      <!-- menu for user authenticacion -->
-      <li>
-        <div class = "btn-group">
-          <button type = "button" class = "btn btn-link dropdown-toggle" data-toggle = "dropdown">
-            <%= fa_icon "user 2x" %>
-          </button>
-          <ul class = "dropdown-menu" role = "menu">
-            <%= render 'layouts/menu/registration_items' %>
-            <%= render 'layouts/menu/login_items' %>
-          </ul>
-        </div>
-      </li>
+      <% if user_signed_in? %>
+      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+      <li><%= link_to('Change Password', edit_user_registration_path) %></li>
+      <% end %>
     </ul>
   </div><!-- /.navbar-collapse -->
 

@@ -3,3 +3,22 @@
 .highlight, mark{
   background-color: #ffff4d;
 }
+
+
+.results-count{
+  font-size: 16px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.list-group.search-results {
+  .list-group-item {
+    padding: 5px;
+    margin: 15px 0;
+  }
+}
+
+#back-to-search-results {
+  margin-left: 15px;
+}
+

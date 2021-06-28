@@ -6,14 +6,16 @@
             <div class="col-sm-12 col-md-2">
               <%= label_tag 'sm', 'Search Method:'%>
             </div>
-            <ul >
-              <li class="radio-inline"><label><input type="radio" name="sm" value="0" checked />Keywords</label></li>
-              <li class="radio-inline"><label><input type="radio" name="sm" value="1" />Phrase</label></li>
-              <li class="radio-inline"><label><input type="radio" name="sm" value="5" />Regular expression</label></li>
-              <li class="radio-inline"><label><input type="radio" name="sm" value="2" />Word start</label></li>
-              <li class="radio-inline"><label><input type="radio" name="sm" value="3" />Word middle</label></li>
-              <li class="radio-inline"><label><input type="radio" name="sm" value="4" />Word end</label></li>
-            </ul>
+            <div class="col-sm-8">
+              <ul >
+                <li class="radio-inline"><label><input type="radio" name="sm" value="0" checked />Keywords</label></li>
+                <li class="radio-inline"><label><input type="radio" name="sm" value="1" />Phrase</label></li>
+                <li class="radio-inline"><label><input type="radio" name="sm" value="5" />Regular expression</label></li>
+                <li class="radio-inline"><label><input type="radio" name="sm" value="2" />Word start</label></li>
+                <li class="radio-inline"><label><input type="radio" name="sm" value="3" />Word middle</label></li>
+                <li class="radio-inline"><label><input type="radio" name="sm" value="4" />Word end</label></li>
+              </ul>
+            </div>
           </div>
         <div class="form-group row">
             <div class="col-sm-2">
@@ -37,11 +39,17 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-sm-3" style="max-width: 170px; padding-right: 0;">
-              <label for="spellVar">Spelling variants (<input name="m" type="text" id="spellVar" readonly style="border:0; font-weight:bold; text-align:center; width: 12px;">):</label>
+            <div class="col-sm-3 col-md-2">
+              <label for="spellVar">Spelling variants:</label>
             </div>
-            <div class="col-sm-7">
-              <div id="slider-spellVar"></div>
+            <div class="col-sm-3 col-md-2">
+              <select class="form-control" id="spellVar" name="m">
+                <option value="0">0</option>
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
             </div>
         </div>
       <div class="row form-group">
@@ -50,12 +58,19 @@
         </div>
         <div class="col-sm-9 col-md-10">
           <input type="hidden" name="v" value="">
-          <% @volumes.each do |v| %>
-            <label class="checkbox-inline">
-              <input type="checkbox" class="vol" value="<%= v.volume %>" checked="checked">
-              Volume <%= v.volume %>
-            </label>
-          <% end %>
+          <ul class="volume-chooser">
+            <li class="radio"><label><input type="radio" name="vc" value="0" checked />All Volumes</label></li>
+            <li class="radio"><label><input type="radio" name="vc" value="1" />Selected Volumes</label>
+              <ul class="list">
+                <% @volumes.each do |v| %>
+                  <li><label class="checkbox-inline">
+                    <input type="checkbox" class="vol" value="<%= v.volume %>" checked="checked">
+                    Volume <%= v.volume %>
+                  </label></li>
+                <% end %>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="row form-group">
@@ -82,13 +97,13 @@
           <div class="col-sm-3">
             <div class="input-group">
               <span class="input-group-addon" id="date_from-label">from</span>
-              <%= search_field_tag('date_from','', placeholder: "yyyy-mm-dd", describedby: "date_from-label", class: "form-control datepicker") %>
+              <%= search_field_tag('date_from','', placeholder: "dd/mm/yyyy", describedby: "date_from-label", class: "form-control datepicker") %>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="input-group">
               <span class="input-group-addon" id="date_to-label">to</span>
-              <%= search_field_tag('date_to','', placeholder: "yyyy-mm-dd ", describedby: "date_to-label", class: "form-control datepicker") %>
+              <%= search_field_tag('date_to','', placeholder: "dd/mm/yyyy", describedby: "date_to-label", class: "form-control datepicker") %>
             </div>
           </div>
         </div>

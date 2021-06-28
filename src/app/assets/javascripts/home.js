@@ -1,17 +1,21 @@
 $(document).ready(function() {
-  var dateFormat = 'yy-mm-dd';
-  var minDate = '1398-01-01';
-  var maxDate = '1511-12-31';
+  var dateFormat = 'dd/mm/yy';
+  var minDate = '01/01/1398';
+  var maxDate = '31/12/1511';
   // Initialise date fields for Advanced Search
   $( "#date_from" ).datepicker({
     showOtherMonths: true,
     selectOtherMonths: true,
-    dateFormat: 'yy-mm-dd',
+    dateFormat: dateFormat,
     minDate: $.datepicker.parseDate( dateFormat, minDate ),
     maxDate: $.datepicker.parseDate( dateFormat, maxDate ),
     defaultDate: $.datepicker.parseDate( dateFormat, minDate )
   }).on( "change", function() {
     $( "#date_to" ).datepicker( "option", "minDate", getDate( this ) );
+    if ($("#date_to").val() == ""){
+      $("#date_to").val($("#date_from").val());
+  }
+    // if date_to not set, set to same value.
   });
 
   $( "#date_to" ).datepicker({
@@ -50,6 +54,7 @@ $(document).ready(function() {
       anchors:['homepage', 'advsearch', 'about'],
       navigation: true,
       paddingTop: '60px',
+      scrollBar: true,
       onLeave: function(index, nextIndex, direction){
         // Hide datepicer after leaving Advanced Search section
         if(index == 2){
@@ -62,15 +67,6 @@ $(document).ready(function() {
        }
     });
 
-    // Initialise spelling variants slider
-    $('#slider-spellVar').slider({ range: "max",
-      min: 0, max: 4, value: 1,
-      slide: function( event, ui ) {
-        $( "#spellVar" ).val( ui.value );
-      }
-    });
-    $( "#spellVar" ).val( $( "#slider-spellVar" ).slider( "value" ) );
-
     // Toggle spelling variants on Regular expressions selected
    $('input[name="sm"]').on('click', toggleMisspellings);
    toggleMisspellings();
@@ -79,7 +75,6 @@ $(document).ready(function() {
 
 var toggleMisspellings = function () {
   $disabled = $('input:checked[name="sm"]').val() == 5;
-  $("#slider-spellVar").slider( "option", "disabled", $disabled);
   $('#spellVar').prop('disabled', $disabled);
 };
 
@@ -99,6 +94,18 @@ $('.fp-controlArrow-down').click(function(){
     $.fn.fullpage.moveSectionDown();
 });
 
+$('input[name=vc]').on('change', function() {
+  toggle_volume_list();
+});
+
+toggle_volume_list = function() {
+  if ($("input[name=vc]:checked").val() == 0) {
+    $('.volume-chooser .list').css('display', 'none');
+    $("input.vol").prop('checked', true);
+  } else {
+    $('.volume-chooser .list').css('display', 'block');
+  }
+}
 
 function submitForm(){
   var name=$('.vol');

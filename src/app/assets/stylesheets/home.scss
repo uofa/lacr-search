@@ -238,3 +238,51 @@
     max-width: 150px;
   }
 }
+
+.volume-chooser {
+  padding-left: 0;
+  .list {
+    display: none;
+    li:first-child {
+      padding-top: 0;
+    }
+  }
+}
+
+.form-control{
+  &:focus{
+    border-color: #66afe9 !important;
+    outline: 1px solid blue !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+  }
+}
+
+input[type=radio], input[type=checkbox]{
+  &:focus{
+    outline: 2px solid blue !important;
+  }
+}
+
+a, .documents-button button, .documents-selected-button button, .btn-link {
+  &:focus{
+    outline: 1px dotted black !important;
+  }
+}
+
+.ui-datepicker{
+  font-size: 16px;
+  .ui-state-default{
+    background-color: white;
+  }
+  .ui-state-hover{
+    border: 1px solid black;
+    background-color: #b1c7e7;
+    font-weight: bold;
+  }
+  .ui-state-active{
+    background-color: #0052a3;
+    font-weight: bold;
+    color: white;
+  }
+}

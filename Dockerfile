@@ -34,6 +34,9 @@ RUN apt-get install -y curl
 # For image conversion
 RUN apt-get install -y imagemagick
 
+# Create old uploads stub in the container
+RUN mkdir -p /old-uploads
+
 # Create the server direcotory in the container
 RUN mkdir -p /lacr-search
 WORKDIR /lacr-search
@@ -42,7 +45,8 @@ WORKDIR /lacr-search
 ADD src/Gemfile /lacr-search/Gemfile
 ADD src/Gemfile.lock /lacr-search/Gemfile.lock
 
-# Install requered gems
+# Install required gems
+RUN bundle update --bundler
 RUN bundle install
 
 

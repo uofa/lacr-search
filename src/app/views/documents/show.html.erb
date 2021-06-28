@@ -3,7 +3,7 @@
 <div class="row">
 	<div class="col-sm-2">
 			<div class="col-xs-12">
-				<a href="<%= "/search?"+referrer_link.query %>" class="btn btn-primary">
+				<a href="<%= "/search?"+referrer_link.query %>" id="back-to-search-results" class="btn btn-primary">
 					<%= fa_icon "arrow-circle-left", text: "Back to search results" %>
 				</a>
 		</div>
@@ -41,7 +41,7 @@
 		<% if params[:highlight] %>
 		setTimeout(function () {
 			// Heighlight search words
-			highlighted_options = { wordsOnly: true, caseSensitive: true };
+			highlighted_options = { wordsOnly: true, caseSensitive: false };
 			$('.transcription').highlight(<%= params[:highlight].split().to_s.html_safe %>, highlighted_options);
 		}, 1000);
 		<% end %>

@@ -13,12 +13,14 @@ services:
     expose:
       - 5433
       - 5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   es:
-    image: elasticsearch:latest
+    image: elasticsearch:5
     restart: unless-stopped
     expose:
      - 9200
@@ -35,9 +37,12 @@ services:
     command: bundle exec rails s -p 80 -b '0.0.0.0'
     volumes:
       - ./src:/lacr-search
+      - /docker/lacr-search/src/public/uploads:/old-uploads
     environment:
       BASEX_ADMIN: ${BASEX_ADMIN}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      BASEX_READONLY: ${BASEX_READONLY}
+      BASEX_CREATEONLY: ${BASEX_READONLY}
 
     ports:
       - "80:80"
